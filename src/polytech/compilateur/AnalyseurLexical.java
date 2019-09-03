@@ -34,6 +34,11 @@ public class AnalyseurLexical {
 		character.put("&","tok_and");
 		character.put("|","tok_or");
 		character.put("=","tok_equal");
+		
+		//Remplissage du tableau de mots clés
+		keywords.put("for", "tok_for");
+		keywords.put("if", "tok_if");
+		keywords.put("while", "tok_while");
 	}
 	
 	public void skip() {
