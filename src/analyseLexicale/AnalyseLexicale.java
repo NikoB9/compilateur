@@ -1,5 +1,5 @@
 package analyseLexicale;
 
-public class TokenArray {
+public class AnalyseLexicale {
 
 }
