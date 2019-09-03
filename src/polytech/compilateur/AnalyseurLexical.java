@@ -1,19 +1,22 @@
 package polytech.compilateur;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AnalyseurLexical {
 
-	private ArrayList<Token> tokenList;
+	private ArrayList<Token> tokenList = new ArrayList<Token>();
 	private File fileToCompile ;
 	private HashMap<String,String> character = new HashMap<String,String>(); 
 	private HashMap<String,String> keywords = new HashMap<String,String>(); 
 	private int listIndex = 0;
 	
-	public AnalyseurLexical(File fileToCompile) {
-		this.tokenList = new ArrayList<Token>();
+	public AnalyseurLexical(File fileToCompile) throws IOException {
 		this.fileToCompile = fileToCompile;
 		
 		//Remplissage du tableau de caractères
@@ -58,4 +61,21 @@ public class AnalyseurLexical {
 			return "Erreur : Type non trouve";
 		}
 	}
+	
+	public void analyse() throws IOException {
+
+		BufferedReader br = new BufferedReader(new FileReader(this.fileToCompile)); 
+
+		String st; 
+		while ((st = br.readLine()) != null) 
+
+			//ATTENTION :
+			//PASSER LES COMMENTAIRES (// ou /**/)
+			//NOTER LES FINS DE LIGNES ET LA FIN DE FICHIER
+
+			System.out.println(st); 
+
+
+	} 
+	
 }
