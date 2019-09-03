@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author laroz
- *
- */
-package compilateur;
