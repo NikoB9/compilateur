@@ -179,8 +179,8 @@ public class AnalyseurLexical {
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 					}
 					//Soit c'est un opérateur soit c'est un espace 
-					else if(this.character.containsKey(actualChar)) {
-						this.tokenList.add(new Token(this.character.get(actualChar), actualChar, lineIndex, columnIndex));
+					else if(this.character.containsKey(""+actualChar)) {
+						this.tokenList.add(new Token(this.character.get(""+actualChar), actualChar, lineIndex, columnIndex));
 					}
 					
 				}
