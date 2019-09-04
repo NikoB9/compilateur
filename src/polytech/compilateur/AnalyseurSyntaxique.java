@@ -1,23 +1,23 @@
 package polytech.compilateur;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class AnalyseurSyntaxique {
 	private AnalyseurLexical analyseurLexical; 
-	private HashMap<String,String> nodeKeywords = new HashMap<String,String>();
-	
-	
+	private ArrayList<Node> nodeList = new ArrayList<Node>();
 	
 	
 	public AnalyseurSyntaxique(AnalyseurLexical analyseurLexical) {
 		this.analyseurLexical = analyseurLexical;
 		
 	}
+	
+	
 
 	public Node Primaire() {
-		if(analyseurLexical.next().getType()=="tok_constante") {
+		if(analyseurLexical.next().getType()=="tok_constant") {
 			//Creation du noeud qui contiendra la valeur
-			Node node = new Node("node_constante", analyseurLexical.next().getValue());
+			Node node = new Node("node_constant", analyseurLexical.next().getValue());
 			//Token actuel traité ! Passage au suivant. 
 			analyseurLexical.skip();
 			return node;
@@ -41,7 +41,7 @@ public class AnalyseurSyntaxique {
 		if(analyseurLexical.next().getType()=="tok_minus") {
 			//Passage au token suivant
 			analyseurLexical.skip();
-			Node node = new Node("node_minus_u");
+			Node node = new Node("node_minus_unary");
 			node.addNode(this.Expresion(7));
 			return node;
 		}
@@ -53,6 +53,18 @@ public class AnalyseurSyntaxique {
 		//TODO
 		return new Node();
 	}
+
+
+
+	public String toString() {
+		
+		String ts = "Liste des noeuds : ";
+		for(Node aNode : this.nodeList) {
+			ts += "- " + aNode + "\n";
+		}
+		return ts;
+	}
+
 	
 	
 }

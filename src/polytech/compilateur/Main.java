@@ -10,8 +10,13 @@ public class Main {
 		String basePath = new File("").getAbsolutePath();
 		File file = new File(basePath+"\\src\\polytech\\compilateur\\source.txt"); 
 		
+		System.out.println("_____________________Analyse_lexicale________________________");
 		AnalyseurLexical analyseurLexical = new AnalyseurLexical(file);
 		analyseurLexical.analyse();
 		System.out.println(analyseurLexical);
+		System.out.println("_____________________Analyse_syntaxique________________________");
+		AnalyseurSyntaxique analyseurSyntaxique = new AnalyseurSyntaxique(analyseurLexical);
+		analyseurSyntaxique.Primaire();
+		System.out.println(analyseurSyntaxique);
 	}
 }

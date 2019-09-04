@@ -50,4 +50,16 @@ public class Node {
 	public void addNode(Node node) {
 		this.childList.add(node);
 	}
+
+	@Override
+	public String toString() {
+		String ts = "Node [type=" + type + ", value=" + value + ", name=" + name + ", childList=\n";
+		for(Node n : this.childList) {
+			ts += "    - " + n +"\n";
+		}
+		
+		return ts;
+	}
+	
+	
 }
