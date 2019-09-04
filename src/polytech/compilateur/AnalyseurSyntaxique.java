@@ -12,11 +12,6 @@ public class AnalyseurSyntaxique {
 	public AnalyseurSyntaxique(AnalyseurLexical analyseurLexical) {
 		this.analyseurLexical = analyseurLexical;
 		
-		//Remplissage du tableau de caractères
-		nodeKeywords.put("+","tok_plus");
-		nodeKeywords.put("-","tok_minus");
-		nodeKeywords.put("(","tok_openning_parenthesis");
-		nodeKeywords.put(")","tok_closing_parenthesis");
 	}
 
 	public Node Primaire() {
@@ -46,7 +41,7 @@ public class AnalyseurSyntaxique {
 		if(analyseurLexical.next().getType()=="tok_minus") {
 			//Passage au token suivant
 			analyseurLexical.skip();
-			Node node = new Node("tok_minus");
+			Node node = new Node("node_minus_u");
 			node.addNode(this.Expresion(7));
 			return node;
 		}
