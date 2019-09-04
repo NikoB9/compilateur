@@ -2,7 +2,6 @@ package polytech.compilateur;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +33,8 @@ public class AnalyseurLexical {
 		character.put(">","tok_sup");
 		character.put("(","tok_openning_parenthesis");
 		character.put(")","tok_closing_parenthesis");
+		character.put("{","tok_open_brace");
+		character.put("}","tok_close_brace");
 		character.put("&","tok_and");
 		character.put("|","tok_or");
 		character.put("=","tok_equal");
@@ -64,18 +65,61 @@ public class AnalyseurLexical {
 	
 	public void analyse() throws IOException {
 
-		BufferedReader br = new BufferedReader(new FileReader(this.fileToCompile)); 
+		BufferedReader reader = new BufferedReader(new FileReader(this.fileToCompile)); 
 
-		String st; 
-		while ((st = br.readLine()) != null) 
-
+		String line; 
+		int lineIndex = 0;
+		while ((line = reader.readLine()) != null) {
 			//ATTENTION :
 			//PASSER LES COMMENTAIRES (// ou /**/)
 			//NOTER LES FINS DE LIGNES ET LA FIN DE FICHIER
 
-			System.out.println(st); 
+			//ASCII NUMBERS : 48 TO 57
+			//ASCII MINUS  : 97 - 122
+			//ASCII MAJUSCULE : 65 - 90 
+			//UNDERSCORE ET TIRETS DANS WHILE VARIABLE
+			//ESPACE : 32
+			
+			for(int columnIndex = 0; columnIndex < line.length(); columnIndex++) {
+				
+				char actualChar = line.charAt(columnIndex);
+				int asciiChar = (int) actualChar;
+				
+				if(asciiChar >= 48 && asciiChar <= 57) {
+					
+					int endIndex = columnIndex+1;
+					while(line.codePointAt(endIndex) >= 48 && line.codePointAt(endIndex) <= 57){
+						endIndex++;
+					}
+					
+					int value = Integer.parseInt(line.substring(columnIndex, endIndex));
+					
+					this.tokenList.add(new Token("tok_constante", value, lineIndex, columnIndex));
+						
+				}
+				
+			}
+			
+			
+			lineIndex += 1;
+		}
+
+		reader.close();
 
 
+	}
+
+	@Override
+	public String toString() {
+		String ts = "Liste de tokens : \n";
+		
+		for(Token aToken : this.tokenList) {
+			ts += aToken + "\n";
+		}
+		
+		return ts;
 	} 
+	
+	
 	
 }

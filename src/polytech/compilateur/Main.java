@@ -12,5 +12,6 @@ public class Main {
 		
 		AnalyseurLexical analyseurLexical = new AnalyseurLexical(file);
 		analyseurLexical.analyse();
+		System.out.println(analyseurLexical);
 	}
 }

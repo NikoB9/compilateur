@@ -9,18 +9,24 @@ public class Token {
 	private int column = 0;
 	
 	
-	public Token(String type, String name) {
+	public Token(String type, String name, int line, int column) {
 		this.type = type;
 		this.name = name;
+		this.line = line;
+		this.column = column;
 	}
 	
-	public Token(String type, int value) {
+	public Token(String type, int value, int line, int column) {
 		this.type = type;
 		this.value = value;
+		this.line = line;
+		this.column = column;
 	}
 
-	public Token(String type) {
+	public Token(String type, int line, int column) {
 		this.type = type;
+		this.line = line;
+		this.column = column;
 	}
 
 	public String getType() {
@@ -41,5 +47,13 @@ public class Token {
 	public void setValue(int value) {
 		this.value = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Token [type=" + type + ", name=" + name + ", value=" + value + ", line=" + line + ", column=" + column
+				+ "]";
+	}
+	
+	
 	
 }
