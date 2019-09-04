@@ -154,6 +154,35 @@ public class AnalyseurLexical {
 				}
 				else {
 					
+					//Si ça commence par égal 
+					if(asciiChar == 61 && line.codePointAt(columnIndex+1) == 61) {
+						//On récupère le texte
+						String name = line.substring(columnIndex, columnIndex+1);
+						this.tokenList.add(new Token(this.keywords.get(name), name, lineIndex, columnIndex));
+					}
+					//Si ça commence par < 
+					else if(asciiChar == 60 && line.codePointAt(columnIndex+1) == 61) {
+						//On récupère le texte
+						String name = line.substring(columnIndex, columnIndex+1);
+						this.tokenList.add(new Token(this.keywords.get(name), name, lineIndex, columnIndex));
+					}
+					//Si ça commence par > 
+					else if(asciiChar == 62 && line.codePointAt(columnIndex+1) == 61) {
+						//On récupère le texte
+						String name = line.substring(columnIndex, columnIndex+1);
+						this.tokenList.add(new Token(this.keywords.get(name), name, lineIndex, columnIndex));
+					}
+					//Si ça commence par ! 
+					else if(asciiChar == 33 && line.codePointAt(columnIndex+1) == 61) {
+						//On récupère le texte
+						String name = line.substring(columnIndex, columnIndex+1);
+						this.tokenList.add(new Token(this.keywords.get(name), name, lineIndex, columnIndex));
+					}
+					//Soit c'est un opérateur soit c'est un espace 
+					else if(this.keywords.containsKey(actualChar)) {
+						this.tokenList.add(new Token(this.keywords.get(actualChar), actualChar, lineIndex, columnIndex));
+					}
+					
 				}
 				
 			}
@@ -179,7 +208,4 @@ public class AnalyseurLexical {
 		
 		return ts;
 	} 
-	
-	
-	
 }
