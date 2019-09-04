@@ -1,9 +1,12 @@
-YO Niko ! 
-C Rayoune.
+/*Test
+Commentaire de 
+Block*/Ok C'est cool
 
 if(10+5=10){
 
 }
+
+_blabla_blop = 540
 
 //Inintéressent
 Have you got a problem with me dude? o_O
