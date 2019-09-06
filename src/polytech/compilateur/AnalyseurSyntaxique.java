@@ -52,18 +52,32 @@ public class AnalyseurSyntaxique {
 		return new Node();
 	}
 	
+	public Operator ChercherOp(Token token) {
+		return this.nodeOperator.get(token.getType());
+	}
+	
 	public Node Expresion(int minPriority) {
+		//Recupération de la constante 
 		Node A1 = this.Primaire();
 		
 		while(true) {
 			Operator Op = this.ChercherOp(this.analyseurLexical.next());
+			//Si l'opérateur qui suit la constante est de priorité inférieure 
+			//A celle recherchée on retourne l'arbre déjà créé
 			if(Op==null || Op.getPriority()<minPriority) {
 				return A1; 
 			}
+			//Sinon on continue à parcourir l'expression pour construire l'arbre
 			this.analyseurLexical.skip();
-			Node A2 = this.Expresion(minPriority)
+			Node A2 = this.Expresion(Op.getPriority()+Op.getAssociativity());
+
+			//On créer le noeud opérateur 
+			Node A = new Node(Op.getNodeName());
+			A.addNodeChild(A1);
+			A.addNodeChild(A2);
+			
+			A1=A;
 		}
-		return new Node();
 	}
 
 
