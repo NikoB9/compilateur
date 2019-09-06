@@ -47,7 +47,7 @@ public class Node {
 	}
 	
 	//Ajout d'un noeud à ce noeud 
-	public void addNode(Node node) {
+	public void addNodeChild(Node node) {
 		this.childList.add(node);
 	}
 

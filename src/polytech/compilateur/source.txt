@@ -1,12 +1,13 @@
 /*Test
 Commentaire de 
-Block*/Ok C'est cool
+Block*/
 
-if(10+5=10){
+_blabla_blop = 540;
 
+if(_blabla_blop != 500){
+	_blabla_blop = 500;
 }
 
-_blabla_blop = 540
+print(_blabla_blop);
 
-//Inintéressent
-Have you got a problem with me dude? o_O
+//Commentaire de ligne

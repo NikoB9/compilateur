@@ -43,6 +43,7 @@ public class AnalyseurLexical {
 		keywords.put("for", "tok_for");
 		keywords.put("if", "tok_if");
 		keywords.put("while", "tok_while");
+		keywords.put("print", "tok_print");
 	}
 	
 	public void skip() {

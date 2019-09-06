@@ -1,6 +1,7 @@
 package polytech.compilateur;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AnalyseurSyntaxique {
 	private AnalyseurLexical analyseurLexical; 
@@ -9,7 +10,6 @@ public class AnalyseurSyntaxique {
 	
 	public AnalyseurSyntaxique(AnalyseurLexical analyseurLexical) {
 		this.analyseurLexical = analyseurLexical;
-		
 	}
 	
 	
@@ -42,7 +42,7 @@ public class AnalyseurSyntaxique {
 			//Passage au token suivant
 			analyseurLexical.skip();
 			Node node = new Node("node_minus_unary");
-			node.addNode(this.Expresion(7));
+			node.addNodeChild(this.Expresion(7));
 			return node;
 		}
 		System.out.println("Attention ! Paramètre attendu dans Primaire()");
@@ -50,6 +50,7 @@ public class AnalyseurSyntaxique {
 	}
 	
 	public Node Expresion(int priority) {
+		
 		//TODO
 		return new Node();
 	}
