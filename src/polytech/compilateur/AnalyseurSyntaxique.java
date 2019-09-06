@@ -5,11 +5,35 @@ import java.util.HashMap;
 
 public class AnalyseurSyntaxique {
 	private AnalyseurLexical analyseurLexical; 
-	private ArrayList<Node> nodeList = new ArrayList<Node>();
+	private Node principalNode;
+	private HashMap<String, Operator> nodeOperators = new HashMap<String, Operator>();
 	
 	
 	public AnalyseurSyntaxique(AnalyseurLexical analyseurLexical) {
 		this.analyseurLexical = analyseurLexical;
+		
+		//Remplissage des opérateurs
+		nodeOperators.put("tok_power", new Operator("node_power", 7, 0));
+
+		nodeOperators.put("tok_divide", new Operator("node_divide", 6, 1));
+		nodeOperators.put("tok_remaindor", new Operator("node_remaindor", 6, 1));
+		nodeOperators.put("tok_multiply", new Operator("node_multiply", 6, 1));
+		
+		nodeOperators.put("tok_plus", new Operator("node_plus_binary", 5, 1));
+		nodeOperators.put("tok_minus", new Operator("node_minus_binary", 5, 1));
+		
+		nodeOperators.put("tok_inf", new Operator("node_inf", 4, 1));
+		nodeOperators.put("tok_sup", new Operator("node_sup", 4, 1));
+		nodeOperators.put("tok_equal", new Operator("node_equal", 4, 1));
+		nodeOperators.put("tok_sup_equal", new Operator("node_sup_equal", 4, 1));
+		nodeOperators.put("tok_inf_equal", new Operator("node_inf_equal", 4, 1));
+		nodeOperators.put("tok_different", new Operator("node_different", 4, 1));
+		
+		nodeOperators.put("tok_and", new Operator("node_and", 3, 1));
+		
+		nodeOperators.put("tok_or", new Operator("node_or", 2, 1));
+		
+		nodeOperators.put("tok_assignment", new Operator("node_assignment", 1, 0));
 	}
 	
 	
@@ -85,9 +109,9 @@ public class AnalyseurSyntaxique {
 	public String toString() {
 		
 		String ts = "Liste des noeuds : ";
-		for(Node aNode : this.nodeList) {
-			ts += "- " + aNode + "\n";
-		}
+//		for(Node aNode : this.nodeList) {
+			ts += "- " + principalNode + "\n";
+//		}
 		return ts;
 	}
 
