@@ -58,16 +58,28 @@ public class Node {
 	public void addNodeChild(Node node) {
 		this.childList.add(node);
 	}
+	
+
+	public static void print(Node n, int l) {
+		
+		for(int i = 1; i < l; i++) {
+			System.out.print("    ");
+		}
+		System.out.println(n);
+		for(Node nc : n.getChildList()) {
+			print(nc, l+1);
+		}
+	}
 
 	@Override
 	public String toString() {
-		String ts = "Node : " + type + "\n";
+		String ts = type;
 		
 		if(type == "node_constant") {
-			ts += "- Valeur : " + value;
+			ts += " => Valeur : " + value;
 		}
 		else if(type == "node_identifier") {
-			ts += "- Nom de variable : " + name;
+			ts += " => Nom de variable : " + name;
 		}
 		
 		return ts;

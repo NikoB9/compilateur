@@ -30,6 +30,6 @@ public class Main {
 		System.out.println("_____________________Analyse_syntaxique________________________");
 		AnalyseurSyntaxique analyseurSyntaxique = new AnalyseurSyntaxique(analyseurLexical);
 		Node principalNode = analyseurSyntaxique.Expression(0);
-		System.out.println(principalNode);
+		Node.print(principalNode, 1);
 	}
 }

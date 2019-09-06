@@ -104,18 +104,6 @@ public class AnalyseurSyntaxique {
 		}
 	}
 
-	
-	public void print(Node n, int l) {
-		
-		for(int i = 1; i < l; i++) {
-			System.out.print(" ");
-		}
-		System.out.println(n);
-		for(Node nc : n.getChildList()) {
-			print(nc, l+1);
-		}
-	}
-
 
 	public String toString() {
 		
