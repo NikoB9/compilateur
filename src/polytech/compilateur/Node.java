@@ -46,6 +46,14 @@ public class Node {
 		this.value = 0;
 	}
 	
+	public ArrayList<Node> getChildList() {
+		return childList;
+	}
+
+	public void setChildList(ArrayList<Node> childList) {
+		this.childList = childList;
+	}
+
 	//Ajout d'un noeud à ce noeud 
 	public void addNodeChild(Node node) {
 		this.childList.add(node);
@@ -53,9 +61,13 @@ public class Node {
 
 	@Override
 	public String toString() {
-		String ts = "Node [type=" + type + ", value=" + value + ", name=" + name + ", childList=\n";
-		for(Node n : this.childList) {
-			ts += "    - " + n +"\n";
+		String ts = "Node : " + type + "\n";
+		
+		if(type == "node_constant") {
+			ts += "- Valeur : " + value;
+		}
+		else if(type == "node_identifier") {
+			ts += "- Nom de variable : " + name;
 		}
 		
 		return ts;
