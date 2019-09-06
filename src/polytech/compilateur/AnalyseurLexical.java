@@ -37,7 +37,7 @@ public class AnalyseurLexical {
 		character.put("}","tok_close_brace");
 		character.put("&","tok_and");
 		character.put("|","tok_or");
-		character.put("=","tok_equal");
+		character.put("=","tok_assignment");
 		
 		//Remplissage du tableau de mots clés
 		keywords.put("for", "tok_for");
