@@ -15,21 +15,23 @@ public class AnalyseurSyntaxique {
 	
 
 	public Node Primaire() {
+		//Renvoi un arbre contenant la constante si constante
 		if(analyseurLexical.next().getType()=="tok_constant") {
 			//Creation du noeud qui contiendra la valeur
 			Node node = new Node("node_constant", analyseurLexical.next().getValue());
-			//Token actuel traité ! Passage au suivant. 
+			//Token actuel traitï¿½ ! Passage au suivant. 
 			analyseurLexical.skip();
 			return node;
 		}
+		//Renvoi un arbre contenant l'ensemble des calculs mathematiques, expression boolean 
 		if(analyseurLexical.next().getType()=="tok_openning_parenthesis") {
 			//Passage au token suivant 
 			analyseurLexical.skip();
 			
-			//node contient le noeud d'expression entre les parenthèses ( ) 
+			//node contient le noeud d'expression entre les parenthï¿½ses ( ) 
 			Node node = this.Expresion(0);
 			
-			//vérification qu'après l'expression il y a une parenthèse fermante
+			//vï¿½rification qu'aprï¿½s l'expression il y a une parenthï¿½se fermante
 			String checkValidity = analyseurLexical.accept("tok_closing_parenthesis");
 			if(checkValidity.equals("Erreur : Type non trouve")) {
 				System.out.println("Erreur parenthese fermante manquante ... ");
@@ -38,6 +40,7 @@ public class AnalyseurSyntaxique {
 			}
 			return node;
 		}
+		//Renvoi un arbre contenant un moins et une expression mathï¿½matique avec au plus une exponentielle 
 		if(analyseurLexical.next().getType()=="tok_minus") {
 			//Passage au token suivant
 			analyseurLexical.skip();
@@ -45,13 +48,21 @@ public class AnalyseurSyntaxique {
 			node.addNodeChild(this.Expresion(7));
 			return node;
 		}
-		System.out.println("Attention ! Paramètre attendu dans Primaire()");
+		System.out.println("Attention ! Paramï¿½tre attendu dans Primaire()");
 		return new Node();
 	}
 	
-	public Node Expresion(int priority) {
+	public Node Expresion(int minPriority) {
+		Node A1 = this.Primaire();
 		
-		//TODO
+		while(true) {
+			Operator Op = this.ChercherOp(this.analyseurLexical.next());
+			if(Op==null || Op.getPriority()<minPriority) {
+				return A1; 
+			}
+			this.analyseurLexical.skip();
+			Node A2 = this.Expresion(minPriority)
+		}
 		return new Node();
 	}
 
