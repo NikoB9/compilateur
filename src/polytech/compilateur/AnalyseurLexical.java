@@ -107,7 +107,7 @@ public class AnalyseurLexical {
 					}
 					
 					//On se replace au bon endroit dans le fichier
-					columnIndex = endIndex;
+					columnIndex = endIndex+1;
 				}
 				//on est face à un chiffre
 				//ASCII NUMBERS : 48 TO 57
