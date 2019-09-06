@@ -17,7 +17,7 @@ public class Main {
 		String fileName = in.nextLine();
 		
 		String basePath = new File("").getAbsolutePath();
-		File file = new File(basePath+"\\src\\"+fileName); 
+		File file = new File(basePath+"\\"+fileName); 
 
 		System.out.print(System.getProperty("line.separator"));
 		System.out.println("_____________________Analyse_lexicale________________________");
