@@ -2,12 +2,14 @@
 Commentaire de 
 Block*/
 
-_blabla_blop = 540;
+//_blabla_blop = 540;
 
-if(_blabla_blop != 500){
+/*if(_blabla_blop != 500){
 	_blabla_blop = 500;
-}
+}*/
 
-print(_blabla_blop);
+5 * 10 - 35 + 10 ^ 2
+
+//print(_blabla_blop);
 
 //Commentaire de ligne

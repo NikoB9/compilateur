@@ -53,7 +53,7 @@ public class AnalyseurSyntaxique {
 			analyseurLexical.skip();
 			
 			//node contient le noeud d'expression entre les parenthï¿½ses ( ) 
-			Node node = this.Expresion(0);
+			Node node = this.Expression(0);
 			
 			//vï¿½rification qu'aprï¿½s l'expression il y a une parenthï¿½se fermante
 			String checkValidity = analyseurLexical.accept("tok_closing_parenthesis");
@@ -69,7 +69,7 @@ public class AnalyseurSyntaxique {
 			//Passage au token suivant
 			analyseurLexical.skip();
 			Node node = new Node("node_minus_unary");
-			node.addNodeChild(this.Expresion(7));
+			node.addNodeChild(this.Expression(7));
 			return node;
 		}
 		System.out.println("Attention ! Paramï¿½tre attendu dans Primaire()");
@@ -80,7 +80,7 @@ public class AnalyseurSyntaxique {
 		return this.nodeOperators.get(token.getType());
 	}
 	
-	public Node Expresion(int minPriority) {
+	public Node Expression(int minPriority) {
 		//Recupération de la constante 
 		Node A1 = this.Primaire();
 		
@@ -93,7 +93,7 @@ public class AnalyseurSyntaxique {
 			}
 			//Sinon on continue à parcourir l'expression pour construire l'arbre
 			this.analyseurLexical.skip();
-			Node A2 = this.Expresion(Op.getPriority()+Op.getAssociativity());
+			Node A2 = this.Expression(Op.getPriority()+Op.getAssociativity());
 
 			//On créer le noeud opérateur 
 			Node A = new Node(Op.getNodeName());

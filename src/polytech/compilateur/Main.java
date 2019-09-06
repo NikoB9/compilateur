@@ -29,7 +29,7 @@ public class Main {
 		System.out.print(System.getProperty("line.separator"));
 		System.out.println("_____________________Analyse_syntaxique________________________");
 		AnalyseurSyntaxique analyseurSyntaxique = new AnalyseurSyntaxique(analyseurLexical);
-		analyseurSyntaxique.Primaire();
-		System.out.println(analyseurSyntaxique);
+		Node principalNode = analyseurSyntaxique.Expression(0);
+		System.out.println(principalNode);
 	}
 }
