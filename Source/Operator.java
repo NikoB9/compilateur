@@ -1,4 +1,4 @@
-package polytech.compilateur;
+package object.secondary;
 
 public class Operator {
 

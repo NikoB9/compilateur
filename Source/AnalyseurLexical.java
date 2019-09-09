@@ -1,4 +1,4 @@
-package polytech.compilateur;
+package object.primary;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import object.secondary.Token;
 
 public class AnalyseurLexical {
 
@@ -183,7 +185,9 @@ public class AnalyseurLexical {
 					else if(this.character.containsKey(""+actualChar)) {
 						this.tokenList.add(new Token(this.character.get(""+actualChar), actualChar, lineIndex, columnIndex));
 					}
-					
+					else{
+						this.tokenList.add(new Token("unknown_tok", lineIndex, columnIndex));
+					}
 				}
 				
 			}

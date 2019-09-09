@@ -1,7 +1,11 @@
-package polytech.compilateur;
+package object.primary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import object.secondary.Node;
+import object.secondary.Operator;
+import object.secondary.Token;
 
 public class AnalyseurSyntaxique {
 	private AnalyseurLexical analyseurLexical; 
@@ -52,7 +56,7 @@ public class AnalyseurSyntaxique {
 			//Passage au token suivant 
 			analyseurLexical.skip();
 			
-			//node contient le noeud d'expression entre les parenthï¿½ses ( ) 
+			//node contient le noeud d'expression entre les parenthèses ( ) 
 			Node node = this.Expression(0);
 			
 			//vï¿½rification qu'aprï¿½s l'expression il y a une parenthï¿½se fermante
@@ -64,7 +68,7 @@ public class AnalyseurSyntaxique {
 			}
 			return node;
 		}
-		//Renvoi un arbre contenant un moins et une expression mathï¿½matique avec au plus une exponentielle 
+		//Renvoi un arbre contenant un moins et une expression mathématique avec au plus une exponentielle 
 		if(analyseurLexical.next().getType()=="tok_minus") {
 			//Passage au token suivant
 			analyseurLexical.skip();
@@ -72,7 +76,7 @@ public class AnalyseurSyntaxique {
 			node.addNodeChild(this.Expression(7));
 			return node;
 		}
-		System.out.println("Attention ! Paramï¿½tre attendu dans Primaire()");
+		System.out.println("Erreur ! \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " )\n");
 		return new Node();
 	}
 	

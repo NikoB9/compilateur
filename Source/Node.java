@@ -1,4 +1,4 @@
-package polytech.compilateur;
+package object.secondary;
 
 import java.util.ArrayList;
 
@@ -69,6 +69,7 @@ public class Node {
 		for(Node nc : n.getChildList()) {
 			print(nc, l+1);
 		}
+
 	}
 
 	@Override

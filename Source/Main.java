@@ -1,9 +1,10 @@
-package polytech.compilateur;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
+import object.primary.AnalyseurLexical;
+import object.primary.AnalyseurSyntaxique;
+import object.secondary.Node;
 
 public class Main {
 	
