@@ -1,0 +1,22 @@
+//Sans erreur 
+
+//Avec erreur 
+5+;
+
+//Sans erreur 
+4+3*4^-5;
+
+//Sans erreur 
+21+321*2+3*3+1*43;
+
+//Avec erreur 
++;
+
+//Avec erreur 
+90+3*21-;
+
+//Avec Erreur 
+4+-5;
+
+//Avec Erreur 
+@ ; ' "' é;

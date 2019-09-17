@@ -13,7 +13,6 @@ public class AnalyseurSyntaxique {
 	private HashMap<String, Operator> nodeOperators = new HashMap<String, Operator>();
 	private boolean error = false;
 
-
 	public AnalyseurSyntaxique(AnalyseurLexical analyseurLexical) {
 		this.analyseurLexical = analyseurLexical;
 
@@ -43,6 +42,10 @@ public class AnalyseurSyntaxique {
 
 	public boolean getError(){
 		return this.error;
+	}
+
+	public void setError(boolean er){
+		 this.error = er;
 	}
 
 	public Node Primaire() {
@@ -80,18 +83,18 @@ public class AnalyseurSyntaxique {
 			return node;
 		}
 		if (analyseurLexical.next().getType()=="tok_unknown") {
-			System.out.println("Erreur : caractere non accepte. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " )\n");
+			System.out.println("Erreur : caractere non accepte. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 			this.error = true;
 			return new Node();
 		}
-		System.out.println("Erreur : caractere non primaire. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " )\n");
+		System.out.println("Erreur : caractere non primaire. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 		this.error = true;
 		return new Node();
 	}
 
 	public Operator ChercherOp(Token token) {
 		if (analyseurLexical.next().getType()=="tok_unknown") {
-			System.out.println("Erreur : operateur non accepte. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " )\n");
+			System.out.println("Erreur : operateur non accepte. \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 			this.error = true;
 			return null;
 		}

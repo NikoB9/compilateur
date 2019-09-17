@@ -48,6 +48,7 @@ public class Main {
 				return ;
 			}
 
+			analyseurSyntaxique.setError(false);
 		}
 	}
 }
