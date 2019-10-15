@@ -1,5 +1,4 @@
-package polytech.compilateur;
-
+package object.secondary;
 
 public class Token {
 	private String type = "";
@@ -46,6 +45,12 @@ public class Token {
 	}
 	public void setValue(int value) {
 		this.value = value;
+	}
+	public int getColumn() {
+		return column;
+	}
+	public int getLine() {
+		return line;
 	}
 
 	@Override
