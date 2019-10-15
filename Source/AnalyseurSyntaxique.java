@@ -68,7 +68,7 @@ public class AnalyseurSyntaxique {
 			//v�rification qu'apr�s l'expression il y a une parenth�se fermante
 			boolean checkValidity = analyseurLexical.accept("tok_closing_parenthesis");
 			if(!checkValidity) {
-				System.out.println("Erreur parenthese fermante manquante ... ");
+				System.out.println("Erreur parenthèse fermante manquante ... ");
 //				System.exit(-1);
 				return new Node();
 			}
@@ -82,19 +82,26 @@ public class AnalyseurSyntaxique {
 			node.addNodeChild(this.Expression(7));
 			return node;
 		}
+		if(analyseurLexical.next().getType()=="tok_not") {
+			//Passage au token suivant
+			analyseurLexical.skip();
+			Node node = new Node("node_not");
+			node.addNodeChild(this.Expression(7));
+			return node;
+		}
 		if (analyseurLexical.next().getType()=="tok_unknown") {
-			System.out.println("Erreur : caractere non accepte. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			System.out.println("Erreur : caractère non accepté. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 			this.error = true;
 			return new Node();
 		}
-		System.out.println("Erreur : caractere non primaire. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+		System.out.println("Erreur : caractère non primaire. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 		this.error = true;
 		return new Node();
 	}
 
 	public Operator ChercherOp(Token token) {
 		if (analyseurLexical.next().getType()=="tok_unknown") {
-			System.out.println("Erreur : operateur non accepte. \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			System.out.println("Erreur : opérateur non accepté. \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 			this.error = true;
 			return null;
 		}
