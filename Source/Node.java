@@ -8,7 +8,7 @@ public class Node {
 	private String name = "";
 	private ArrayList<Node> childList = new ArrayList<Node>();
 	
-	//déclaration de variable 
+	//dï¿½claration de variable 
 	public Node(String type, int value, String name, ArrayList<Node> childList) {
 		this.type = type;
 		this.value = value;
@@ -16,7 +16,7 @@ public class Node {
 		this.childList = childList;
 	}
 
-	//déclaration d'opérateur 
+	//dï¿½claration d'opï¿½rateur 
 	public Node(String type, ArrayList<Node> childList) {
 		this.type = type;
 		this.childList = childList;
@@ -24,14 +24,14 @@ public class Node {
 		this.name = "";
 	}
 
-	//déclaration constante 
+	//dï¿½claration constante 
 	public Node(String type, int value) {
 		this.type = type;
 		this.value = value;
 		this.childList = new ArrayList<Node>();
 	}
 	
-	//Initialisation à vide 
+	//Initialisation ï¿½ vide 
 	public Node() {
 		this.type = "";
 		this.childList = new ArrayList<Node>();
@@ -45,7 +45,21 @@ public class Node {
 		this.name = "";
 		this.value = 0;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Node getChild(int num){ return childList.get(num); }
+
 	public ArrayList<Node> getChildList() {
 		return childList;
 	}
@@ -54,7 +68,7 @@ public class Node {
 		this.childList = childList;
 	}
 
-	//Ajout d'un noeud à ce noeud 
+	//Ajout d'un noeud ï¿½ ce noeud 
 	public void addNodeChild(Node node) {
 		this.childList.add(node);
 	}

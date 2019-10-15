@@ -6,7 +6,7 @@ java et javac doivent être renseignés dans les variables d'environnement
 Dans un terminal :
 
 1- cd CHEMIN_VERS_LE_PROJET/compilateur/Source
-2- javac -d ../Execution *.java 
+2- javac -d ../Execution -encoding UTF-8 *.java 
 
 ---Exécution du programme---
 

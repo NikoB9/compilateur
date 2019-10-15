@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import object.primary.AnalyseurLexical;
 import object.primary.AnalyseurSyntaxique;
+import object.primary.CodeGenerator;
 import object.secondary.Node;
 
 public class Main {
@@ -12,7 +13,7 @@ public class Main {
 
 		Scanner in = new Scanner(System.in);
 
-		System.out.println("_____________________Debut_Programme________________________");
+		System.out.println("_____________________Début_Programme________________________");
 		System.out.print(System.getProperty("line.separator"));
 		System.out.print("Entrez le nom de fichier avec l'extension .txt : ");
 		String fileName = in.nextLine();
@@ -32,6 +33,8 @@ public class Main {
 		System.out.println("_____________________Analyse_syntaxique________________________");
 
 		int tree = 1;
+		int nbTreeErr = 0;
+        int nbTreeOk = 0;
 		while(true){
 
 			System.out.println("\n\nArbre : "+tree+"\n\n");
@@ -39,12 +42,27 @@ public class Main {
 			Node principalNode = analyseurSyntaxique.Expression(0);
 			if (!analyseurSyntaxique.getError()) {
 					Node.print(principalNode, 1);
+
+                    nbTreeOk ++;
+
+					System.out.println("\n\n_________________________Code_généré_____________________________\n\n");
+                    System.out.println(".start");
+					CodeGenerator.genCode(principalNode);
+                    System.out.println("dbg");
+                    System.out.println("halt");
 			}
+			else {
+			    nbTreeErr ++;
+            }
+
+
 			if (!analyseurLexical.accept("tok_end_of_file")) {
 				analyseurLexical.skip();
 				tree++;
 			}
 			else{
+                System.out.println("\n\n_____Arbres Sans Erreurs___:___"+nbTreeOk+"/4\n\n");
+                System.out.println("\n\n_____Arbres Avec Erreurs___:___"+nbTreeErr+"/11\n\n");
 				return ;
 			}
 
