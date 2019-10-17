@@ -1,4 +1,7 @@
-//Sans erreur 
+//Sans erreur
+variable = 3 + 4;
+
+//Sans erreur
 5;
 
 //Sans erreur 

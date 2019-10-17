@@ -13,43 +13,48 @@ public class Main {
 
 		Scanner in = new Scanner(System.in);
 
-		System.out.println("_____________________Début_Programme________________________");
+		System.out.println("\n\n_____________________Début_Programme________________________\n");
 		System.out.print(System.getProperty("line.separator"));
-		System.out.print("Entrez le nom de fichier avec l'extension .txt : ");
-		String fileName = in.nextLine();
+        String fileName;
+		if(args.length == 0){
+		    System.out.print("Entrez le nom de fichier avec l'extension .txt : ");
+		    fileName = in.nextLine();
+        }
+		else{
+		    fileName = args[0];
+        }
+
 
 		String basePath = new File("").getAbsolutePath();
 		File file = new File(basePath+"\\"+fileName);
 
-		System.out.print(System.getProperty("line.separator"));
-		System.out.println("_____________________Analyse_lexicale________________________");
+		//System.out.print(System.getProperty("line.separator"));
+		//System.out.println("_____________________Analyse_lexicale________________________");
 		AnalyseurLexical analyseurLexical = new AnalyseurLexical(file);
 		analyseurLexical.analyse();
-		System.out.println(analyseurLexical);
+		//System.out.println(analyseurLexical);
 
 
-		System.out.print(System.getProperty("line.separator"));
+		//System.out.lineSeparator();
 		AnalyseurSyntaxique analyseurSyntaxique = new AnalyseurSyntaxique(analyseurLexical);
-		System.out.println("_____________________Analyse_syntaxique________________________");
+		//System.out.println("_____________________Analyse_syntaxique________________________");
 
 		int tree = 1;
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
+        String flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\n\n";
 		while(true){
 
-			System.out.println("\n\nArbre : "+tree+"\n\n");
+			//System.out.println("\n\nArbre : "+tree+"\n\n");
 
-			Node principalNode = analyseurSyntaxique.Expression(0);
+			Node principalNode = analyseurSyntaxique.Instruction();
 			if (!analyseurSyntaxique.getError()) {
-					Node.print(principalNode, 1);
+					//Node.print(principalNode, 1);
 
                     nbTreeOk ++;
 
-					System.out.println("\n\n_________________________Code_généré_____________________________\n\n");
-                    System.out.println(".start");
-					CodeGenerator.genCode(principalNode);
-                    System.out.println("dbg");
-                    System.out.println("halt");
+					flow += CodeGenerator.genCode(principalNode);
+                    flow += "dbg\n";
 			}
 			else {
 			    nbTreeErr ++;
@@ -57,12 +62,18 @@ public class Main {
 
 
 			if (!analyseurLexical.accept("tok_end_of_file")) {
-				analyseurLexical.skip();
 				tree++;
 			}
 			else{
-                System.out.println("\n\n_____Arbres Sans Erreurs___:___"+nbTreeOk+"/4\n\n");
-                System.out.println("\n\n_____Arbres Avec Erreurs___:___"+nbTreeErr+"/11\n\n");
+                //System.out.println("\n\n_____Arbres Sans Erreurs___:___"+nbTreeOk+"\n\n");
+                //System.out.println("\n\n_____Arbres Avec Erreurs___:___"+nbTreeErr+"\n\n");
+				if (nbTreeErr >= 1){
+					flow = "\n\nL'analyseur à rencontré des erreurs. Le code compilé ne sera pas généré ! \n\n";
+				}
+				else {
+					flow += "\nhalt\n";
+				}
+				System.out.println(flow);
 				return ;
 			}
 

@@ -46,6 +46,13 @@ public class Node {
 		this.value = 0;
 	}
 
+	public Node(String type, String name) {
+		this.type = type;
+		this.childList = new ArrayList<Node>();
+		this.name = name;
+		this.value = 0;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -59,6 +66,8 @@ public class Node {
 	}
 
 	public Node getChild(int num){ return childList.get(num); }
+
+    public int nbChild(){ return childList.size(); }
 
 	public ArrayList<Node> getChildList() {
 		return childList;

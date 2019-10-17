@@ -45,8 +45,10 @@ public class AnalyseurLexical {
 		//Remplissage du tableau de mots cl�s
 		keywords.put("for", "tok_for");
 		keywords.put("if", "tok_if");
+		keywords.put("else if", "tok_elif");
+		keywords.put("else", "tok_else");
 		keywords.put("while", "tok_while");
-		keywords.put("print", "tok_print");
+		keywords.put("debug", "tok_debug");
 	}
 
 	public void skip() {
@@ -85,6 +87,8 @@ public class AnalyseurLexical {
 
 				char actualChar = line.charAt(columnIndex);
 				int asciiChar = (int) actualChar;
+
+
 
 				//Si on est face � un commentaire de ligne
 				//ASCII "/" : 47
@@ -147,11 +151,14 @@ public class AnalyseurLexical {
 					//Si c'est un mot cl� pour une instruction on cr� un token qui est li� � ce mot cl�
 					if(this.keywords.containsKey(name)) {
 						this.tokenList.add(new Token(this.keywords.get(name), name, lineIndex, columnIndex));
+						endIndex = endIndex-1;
 					}
 					//Sinon c'est une variable donc on cr� un token identificateur
+					else{
+						//On cré un token a avec la variable
+						this.tokenList.add(new Token("tok_identifier", name, lineIndex, columnIndex));
+					}
 
-					//On cr� un token a avec le nombre r�cup�r�
-					this.tokenList.add(new Token("tok_identifier", name, lineIndex, columnIndex));
 
 					//On se replace au bon endroit dans le fichier
 					columnIndex = endIndex;
