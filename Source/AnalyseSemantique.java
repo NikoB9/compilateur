@@ -10,23 +10,30 @@ public class AnalyseSemantique {
 
     private static int nbVariables = 0;
 
-    private static HashMap<String,Symbol> block = new HashMap<String, Symbol>();
     private static Stack<HashMap<String,Symbol>> stack = new Stack<HashMap<String,Symbol>>();
     
     public AnalyseSemantique(){
     }
 
     public static void openBlock(){
-
+        HashMap<String,Symbol> block = new HashMap<String, Symbol>();
+        stack.push(block);
     }
 
     public static void closeBlock(){
-
+        stack.pop();
     }
 
-    public static Symbol declarer(String varIdSymbol){
+    public static Symbol declarer(String nom){
         Symbol s = new Symbol();
-
+        HashMap<String,Symbol> block = stack.peek();
+        if(block.containsKey(nom)){
+            System.out.println("Erreur la variable "+varIdSymbol+" est déjà déclaré dans ce bloc !");
+            //TODO debug info du symbole (ligne/colonne)
+        }
+        else{
+            block.put(nom, s);
+        }
         return s;
     }
 

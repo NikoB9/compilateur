@@ -11,10 +11,19 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
+	    boolean debugMode = false;
+
+	    if (args.length == 2){
+	        debugMode = Boolean.parseBoolean(args[1]);
+        }
+
 		Scanner in = new Scanner(System.in);
 
-		System.out.println("\n\n_____________________Début_Programme________________________\n");
-		System.out.print(System.getProperty("line.separator"));
+	    if (debugMode){
+            System.out.println("\n\n_____________________Début_Programme________________________\n");
+            System.out.print(System.getProperty("line.separator"));
+        }
+
         String fileName;
 		if(args.length == 0){
 		    System.out.print("Entrez le nom de fichier avec l'extension .txt : ");
@@ -28,11 +37,16 @@ public class Main {
 		String basePath = new File("").getAbsolutePath();
 		File file = new File(basePath+"\\"+fileName);
 
-		//System.out.print(System.getProperty("line.separator"));
-		//System.out.println("_____________________Analyse_lexicale________________________");
+        if (debugMode){
+            System.out.print(System.getProperty("line.separator"));
+            System.out.println("_____________________Analyse_lexicale________________________");
+        }
+
 		AnalyseurLexical analyseurLexical = new AnalyseurLexical(file);
 		analyseurLexical.analyse();
-		System.out.println(analyseurLexical);
+
+        if (debugMode) System.out.println(analyseurLexical);
+
 
 
 		//System.out.lineSeparator();
@@ -42,19 +56,20 @@ public class Main {
 		int tree = 1;
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
-        String flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn 1\n";
-		while(true){
+        String flow;
+        if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn 1\n";
+		else flow = "\n\n.start\nresn 1\n";
+        while(true){
 
 			//System.out.println("\n\nArbre : "+tree+"\n\n");
 
 			Node principalNode = analyseurSyntaxique.Instruction();
 			if (!analyseurSyntaxique.getError()) {
-					Node.print(principalNode, 1);
+                    if (debugMode) Node.print(principalNode, 1);
 
                     nbTreeOk ++;
 
 					flow += CodeGenerator.genCode(principalNode);
-                    flow += "dbg\n";
 			}
 			else {
 			    nbTreeErr ++;
@@ -71,7 +86,7 @@ public class Main {
 					flow = "\n\nL'analyseur à rencontré des erreurs. Le code compilé ne sera pas généré ! \n\n";
 				}
 				else {
-					flow += "\nhalt\n";
+					flow += "halt\n";
 				}
 				System.out.println(flow);
 				return ;

@@ -1,18 +1,19 @@
 //Sanserreur
 variable=3+4;
 //Sanserreur
-5;
+debug 5;
 //Sanserreur
-4+3*4^-5;
+debug 4+3*4-5;
 //Sanserreur
-21+321*2+3*3+1*43;
+debug 21+321*2+3*3+1*43;
 //SansErreur
-4+-5;
+debug 4+-5;
 a=10;
 if(a==10){
-b=10+5*3;
-debug b;
+
+    b=a+5*3;
+    debug b;
 }
 else{
-debug 0;
+    debug 0;
 }
