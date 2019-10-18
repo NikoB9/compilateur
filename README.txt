@@ -20,9 +20,16 @@ Dans le même terminal à la suite :
 
 ---FAIT---
 Analyseur lexical : cré des tokens en fonctions des caractères rencontrés. Ignore les espaces et les commentaires.
-Analyseur syntaxique : Gère les erreurs; Créer des arbres en fonctions des lignes d'opérations rencontrées.
+Analyseur syntaxique : Gère les erreurs; Créer des arbres en fonctions des lignes d'opérations rencontrées. 
+Gère les Instructions, les expressions et les primaire
+Les conditionnelles sont fonctionnels 
+Analyseur sémantique :
+Générateur de code : 
+
 ---INFOS IMPORTANTES---
 -UN POINT VIRGULE DOIT SEPARER CHAQUE INSTRUCTION.
 -Dans la gestion d'erreurs les lignes sont comptez sans prendre en compte les lignes vides 
 ---NON FAIT---
 Affectation de variables et boucles (conditionnelles et itératives).
+Node Power
+Boucles (while for)
