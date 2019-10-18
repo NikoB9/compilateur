@@ -4,7 +4,7 @@ import java.util.Stack;
 import java.util.HashMap;
 
 import object.secondary.Node;
-import object.secondary.Symbol
+import object.secondary.Symbol;
 
 public class CodeGenerator {
 

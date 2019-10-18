@@ -166,20 +166,6 @@ public class AnalyseurSyntaxique {
             N.addNodeChild(Nexp);
             N.addNodeChild(Nins);
 
-            //Si la condition if est suivi d'un else if on boucle tant qu'il y a des else if
-            /*while (analyseurLexical.next().getType() == "tok_elif"){
-                analyseurLexical.skip();
-                analyseurLexical.accept("tok_openning_parenthesis");
-
-                Nexp = Expression(0);
-
-                analyseurLexical.accept("tok_closing_parenthesis");
-
-                Nins = Instruction();
-
-                N.addNodeChild(Nexp);
-                N.addNodeChild(Nins);
-            }*/
             //Si suivi d'un else on le rajoute
             if (analyseurLexical.next().getType() == "tok_else"){
 
