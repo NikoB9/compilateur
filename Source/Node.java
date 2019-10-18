@@ -6,6 +6,7 @@ public class Node {
 	private String type = ""; 
 	private int value = 0; 
 	private String name = "";
+    private int slot = 0;
 	private ArrayList<Node> childList = new ArrayList<Node>();
 	
 	//d�claration de variable 
@@ -66,6 +67,10 @@ public class Node {
 	}
 
 	public Node getChild(int num){ return childList.get(num); }
+
+	public void setSlot(int s){
+	    this.slot = s;
+    }
 
     public int nbChild(){ return childList.size(); }
 
