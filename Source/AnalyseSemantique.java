@@ -11,6 +11,7 @@ public class AnalyseSemantique {
     private static int nbVariables = 0;
 
     private static HashMap<String,Symbol> Symbols = new HashMap<String, Symbol>();
+    private static Stack
 
     
     public AnalyseSemantique(){

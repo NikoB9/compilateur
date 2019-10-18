@@ -3,31 +3,17 @@ package object.secondary;
 import java.util.ArrayList;
 
 public class Symbol {
-	private static int count = 0;
-	private int id;
-	private String name;
 	private String type;
 	private int slot;
 
-	public Symbol(String type, int slot, String name) {
-		this.name = name;
+	public Symbol(String type, int slot) {
 		this.type = type;
 		this.slot = slot;
-		this.id = ++count;
-	}
-
-	public Symbol(String name) {
-		this.name = name;
-		this.type = "";
-		this.slot = "";
-		this.id = ++count;
 	}
 
 	public Symbol() {
-		this.name = "";
 		this.type = "";
-		this.slot = "";
-		this.id = ++count;
+		this.slot = 0;
 	}
 
 	public String getType() {
@@ -38,14 +24,6 @@ public class Symbol {
 		return slot;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
 	public void setType(String t) {
 		this.type = t;
 	}
@@ -54,19 +32,9 @@ public class Symbol {
 		this.slot = s;
 	}
 
-	public void setId(int i) {
-		this.id = i;
-	}
-
-	public void setName(String n) {
-		this.name = n;
-	}
-	
-
-
 	@Override
 	public String toString() {
-		String ts = "symbole "+id;
+		String ts = "symbole";
 		
 		return ts;
 	}
