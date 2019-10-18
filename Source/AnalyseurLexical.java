@@ -45,7 +45,6 @@ public class AnalyseurLexical {
 		//Remplissage du tableau de mots cl�s
 		keywords.put("for", "tok_for");
 		keywords.put("if", "tok_if");
-		keywords.put("else if", "tok_elif");
 		keywords.put("else", "tok_else");
 		keywords.put("while", "tok_while");
 		keywords.put("debug", "tok_debug");
