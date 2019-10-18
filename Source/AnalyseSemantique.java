@@ -6,36 +6,18 @@ import java.util.HashMap;
 import object.secondary.Node;
 import object.secondary.Symbol;
 
-public class CodeGenerator {
+public class AnalyseSemantique {
 
     private static int nbVariables = 0;
 
-    private static HashMap<String,Symbol> functionsMSM = new HashMap<String, String>();
-    static {
-        functionsMSM.put("node_divide","div");
-        functionsMSM.put("node_remaindor", "mod");
-        functionsMSM.put("node_multiply","mul");
+    private static HashMap<String,Symbol> Symbols = new HashMap<String, Symbol>();
 
-        functionsMSM.put("node_plus_binary", "add");
-        functionsMSM.put("node_minus_binary", "sub");
-
-        functionsMSM.put("node_inf", "cmplt");
-        functionsMSM.put("node_sup", "cmpgt");
-        functionsMSM.put("node_equal", "cmpeq");
-        functionsMSM.put("node_sup_equal", "cmpge");
-        functionsMSM.put("node_inf_equal", "cmple");
-        functionsMSM.put("node_different", "cmpne");
-
-        functionsMSM.put("node_and", "and");
-
-        functionsMSM.put("node_or", "or");
-    }
     
-    public CodeGenerator(){
+    public AnalyseSemantique(){
     }
 
 
-    public static String genCode(Node n){
+    /*public static String genCode(Node n){
 
         String generatedCode = "";
 
@@ -93,6 +75,6 @@ public class CodeGenerator {
         }
 
         return generatedCode;
-    }
+    }*/
     
 }
