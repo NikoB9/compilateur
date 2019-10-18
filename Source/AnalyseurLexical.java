@@ -202,8 +202,9 @@ public class AnalyseurLexical {
 						if (asciiChar == 59) {
 							this.tokenList.add(new Token("tok_separator", lineIndex, columnIndex));
 						}
-						else if (asciiChar != 32) {
+						else if (asciiChar != 32 && asciiChar != 9) {
 							this.tokenList.add(new Token("tok_unknown", lineIndex, columnIndex));
+							System.out.println("unknown : "+asciiChar);
 						}
 					}
 				}

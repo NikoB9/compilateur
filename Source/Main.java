@@ -54,7 +54,7 @@ public class Main {
                     nbTreeOk ++;
 
 					flow += CodeGenerator.genCode(principalNode);
-                    flow += "dbg\n";
+                    //flow += "dbg\n";
 			}
 			else {
 			    nbTreeErr ++;
