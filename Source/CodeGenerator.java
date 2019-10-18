@@ -76,12 +76,12 @@ public class CodeGenerator {
         }
         else if (n.getType() == "node_condition"){
             generatedCode += genCode(n.getChild(0));
-            generatedCode += "jumpf [f"+(flagCount*2)+"]\n";
+            generatedCode += "jumpf l"+(flagCount*2)+"\n";
             generatedCode += genCode(n.getChild(1));
-            generatedCode += "jump [f"+(flagCount*2+1)+"]\n";
-            generatedCode += ".f"+(flagCount*2)+"\n";
+            generatedCode += "jump l"+(flagCount*2+1)+"\n";
+            generatedCode += ".l"+(flagCount*2)+"\n";
             generatedCode += (n.nbChild()==2 ? "" : genCode(n.getChild(2)));
-            generatedCode += ".f"+(flagCount*2+1)+"\n";
+            generatedCode += ".l"+(flagCount*2+1)+"\n";
             flagCount++;
         }
         else if (n.getType() == "node_debug"){

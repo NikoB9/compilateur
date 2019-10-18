@@ -32,7 +32,7 @@ public class Main {
 		//System.out.println("_____________________Analyse_lexicale________________________");
 		AnalyseurLexical analyseurLexical = new AnalyseurLexical(file);
 		analyseurLexical.analyse();
-		//System.out.println(analyseurLexical);
+		System.out.println(analyseurLexical);
 
 
 		//System.out.lineSeparator();
@@ -42,14 +42,14 @@ public class Main {
 		int tree = 1;
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
-        String flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\n\n";
+        String flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn 1\n";
 		while(true){
 
 			//System.out.println("\n\nArbre : "+tree+"\n\n");
 
 			Node principalNode = analyseurSyntaxique.Instruction();
 			if (!analyseurSyntaxique.getError()) {
-					//Node.print(principalNode, 1);
+					Node.print(principalNode, 1);
 
                     nbTreeOk ++;
 

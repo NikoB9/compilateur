@@ -157,6 +157,7 @@ public class AnalyseurLexical {
 					else{
 						//On cré un token a avec la variable
 						this.tokenList.add(new Token("tok_identifier", name, lineIndex, columnIndex));
+						endIndex = endIndex-1;
 					}
 
 
