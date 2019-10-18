@@ -114,6 +114,7 @@ public class AnalyseurSyntaxique {
 			this.error = true;
 			return null;
 		}
+
 		return this.nodeOperators.get(token.getType());
 	}
 
