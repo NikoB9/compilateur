@@ -51,7 +51,7 @@ public class AnalyseurLexical {
 	}
 
 	public void skip() {
-		this.listIndex++;
+		if (this.next().getType() != "tok_end_of_file")this.listIndex++;
 	}
 
 	public Token next() {
@@ -204,6 +204,7 @@ public class AnalyseurLexical {
 						}
 						else if (asciiChar != 32) {
 							this.tokenList.add(new Token("tok_unknown", lineIndex, columnIndex));
+							System.out.println("tok_unknown : "+asciiChar);
 						}
 					}
 				}

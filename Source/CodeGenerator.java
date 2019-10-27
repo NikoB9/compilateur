@@ -50,7 +50,7 @@ public class CodeGenerator {
             generatedCode += "not" + "\n";
         }
         else if (n.getType() == "node_power"){
-            System.out.format("Erreur, le noeud (%s) n'est pas encore pris en charge\n", n.getType());
+            System.out.format("Erreur, le noeud (%s) n'est pas encore pris en charge (ligne : %d ; colonne : %d)\n", n.getType(), n.getLine(), n.getColumn());
         }
         else if (functionsMSM.containsKey(n.getType())){
             generatedCode += genCode(n.getChild(0));
@@ -88,6 +88,9 @@ public class CodeGenerator {
             generatedCode += genCode(n.getChild(0));
             generatedCode += "dbg\n";
             generatedCode += "drop\n";
+        }
+        else if(n.getType() == "node_end_of_file"){
+                System.out.println("code gene node end of file ");
         }
 
         return generatedCode;

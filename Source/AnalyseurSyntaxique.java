@@ -52,14 +52,14 @@ public class AnalyseurSyntaxique {
 		//Renvoi un arbre contenant la constante si constante
 		if(analyseurLexical.next().getType()=="tok_constant") {
 			//Creation du noeud qui contiendra la valeur
-			Node node = new Node("node_constant", analyseurLexical.next().getValue());
+			Node node = new Node("node_constant", analyseurLexical.next().getValue(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			//Token actuel trait� ! Passage au suivant.
 			analyseurLexical.skip();
 			return node;
 		}
 		//Renvoi un arbre variable si on a un token identifier
 		if (analyseurLexical.next().getType() == "tok_identifier"){
-			Node n = new Node("node_var", analyseurLexical.next().getName());
+			Node n = new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			analyseurLexical.skip();
 			return n;
 		}
@@ -76,7 +76,7 @@ public class AnalyseurSyntaxique {
 			if(!checkValidity) {
 				System.out.println("Erreur parenthèse fermante manquante ...  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 //				System.exit(-1);
-				return new Node();
+				return new Node(analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			}
 			return node;
 		}
@@ -84,28 +84,28 @@ public class AnalyseurSyntaxique {
 		if(analyseurLexical.next().getType()=="tok_minus") {
 			//Passage au token suivant
 			analyseurLexical.skip();
-			Node node = new Node("node_minus_unary");
+			Node node = new Node("node_minus_unary", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			node.addNodeChild(this.Expression(7));
 			return node;
 		}
 		if(analyseurLexical.next().getType()=="tok_not") {
 			//Passage au token suivant
 			analyseurLexical.skip();
-			Node node = new Node("node_not");
+			Node node = new Node("node_not", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			node.addNodeChild(this.Expression(7));
 			return node;
 		}
 		if (analyseurLexical.next().getType()=="tok_unknown") {
 			System.out.println("Erreur : caractère non accepté. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 			this.error = true;
-			return new Node();
+			return new Node(analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 		}
 		if (analyseurLexical.next().getType()=="tok_end_of_file") {
-			return new Node();
+			return new Node(analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 		}
 		System.out.println("Erreur : caractère non primaire. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 		this.error = true;
-		return new Node();
+		return new Node(analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 	}
 
 	public Operator ChercherOp(Token token) {
@@ -135,7 +135,7 @@ public class AnalyseurSyntaxique {
 			Node A2 = this.Expression(Op.getPriority()+Op.getAssociativity());
 
 			//On cr�er le noeud op�rateur
-			Node A = new Node(Op.getNodeName());
+			Node A = new Node(Op.getNodeName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			A.addNodeChild(A1);
 			A.addNodeChild(A2);
 
@@ -152,17 +152,19 @@ public class AnalyseurSyntaxique {
 
 			if (!analyseurLexical.accept("tok_openning_parenthesis")){
                 System.out.println("Erreur parenthèse ouvrante manquante ...  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
-            }
+				this.error = true;
+			}
 
                 Node Nexp = Expression(0);
 
             if (!analyseurLexical.accept("tok_closing_parenthesis")){
                 System.out.println("Erreur parenthèse fermante manquante ...  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+				this.error = true;
             }
 
                 Node Nins = Instruction();
 
-            N = new Node("node_condition");
+            N = new Node("node_condition", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
             N.addNodeChild(Nexp);
             N.addNodeChild(Nins);
 
@@ -179,19 +181,22 @@ public class AnalyseurSyntaxique {
         }
 	    else if (analyseurLexical.next().getType() == "tok_open_brace"){
 
-            N = new Node("node_block");
+            N = new Node("node_block", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
             analyseurLexical.skip();
 
-            while (analyseurLexical.next().getType() != "tok_close_brace"){
-                N.addNodeChild(Instruction());
+            while (analyseurLexical.next().getType() != "tok_close_brace" && analyseurLexical.next().getType() != "tok_end_of_file"){
+				N.addNodeChild(Instruction());
             }
 
-            analyseurLexical.skip();
+			if (!analyseurLexical.accept("tok_close_brace")){
+				System.out.println("Il manque une accolade fermante '}'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+				this.error = true;
+			}
 
         }
 		else if (analyseurLexical.next().getType() == "tok_debug"){
 
-			N = new Node("node_debug");
+			N = new Node("node_debug", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
 			analyseurLexical.skip();
 
@@ -199,16 +204,20 @@ public class AnalyseurSyntaxique {
 
 			if (!analyseurLexical.accept("tok_separator")){
 				System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+				this.error = true;
 			}
 
 		}
+		/*****expressions******/
 	    else {
 
 	        Node Nexp = Expression(0);
             if (!analyseurLexical.accept("tok_separator")){
             	System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+            	analyseurLexical.skip();
+            	this.error = true;
 			}
-			N = new Node("node_expression");
+			N = new Node("node_expression", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			N.addNodeChild(Nexp);
 
         }

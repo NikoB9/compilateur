@@ -9,7 +9,7 @@ debug 21+321*2+3*3+1*43;
 //SansErreur
 debug 4+-5;
 a=10;
-if(a==10){
+if(a==10)
 
     b=a+5*3;
     debug b;

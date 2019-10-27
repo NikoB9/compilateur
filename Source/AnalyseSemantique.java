@@ -28,7 +28,7 @@ public class AnalyseSemantique {
         Symbol s = new Symbol();
         HashMap<String,Symbol> block = stack.peek();
         if(block.containsKey(nom)){
-            System.out.println("Erreur la variable "+varIdSymbol+" est déjà déclaré dans ce bloc !");
+            System.out.println("Erreur la variable "+nom+" est déjà déclaré dans ce bloc !");
             //TODO debug info du symbole (ligne/colonne)
         }
         else{
