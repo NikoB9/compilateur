@@ -48,6 +48,7 @@ public class AnalyseurLexical {
 		keywords.put("else", "tok_else");
 		keywords.put("while", "tok_while");
 		keywords.put("debug", "tok_debug");
+        keywords.put("var", "tok_declaration");
 	}
 
 	public void skip() {
@@ -154,7 +155,7 @@ public class AnalyseurLexical {
 					}
 					//Sinon c'est une variable donc on cr� un token identificateur
 					else{
-						//On cré un token a avec la variable
+						//On créé un token a avec la variable
 						this.tokenList.add(new Token("tok_identifier", name, lineIndex, columnIndex));
 						endIndex = endIndex-1;
 					}

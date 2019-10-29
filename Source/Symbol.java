@@ -20,6 +20,13 @@ public class Symbol {
 		this.slot = 0;
 	}
 
+    public Symbol(int line, int column) {
+        this.type = "";
+        this.slot = 0;
+        this.line = line;
+        this.column = column;
+    }
+
     public int getColumn() {
         return column;
     }

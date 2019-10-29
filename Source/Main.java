@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import object.primary.AnalyseurLexical;
 import object.primary.AnalyseurSyntaxique;
+import object.primary.AnalyseurSemantique;
 import object.primary.CodeGenerator;
 import object.secondary.Node;
 
@@ -56,16 +57,17 @@ public class Main {
 		int tree = 1;
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
-        String flow;
-        if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn 1\n";
-		else flow = "\n\n.start\nresn 1\n";
+        String flow="";
         while(true){
 
 			//System.out.println("\n\nArbre : "+tree+"\n\n");
 
 			Node principalNode = analyseurSyntaxique.Instruction();
-			if (!analyseurSyntaxique.getError()) {
-                    if (debugMode) Node.print(principalNode, 1);
+            AnalyseurSemantique.nodeAnalyse(principalNode);
+
+			if (debugMode) Node.print(principalNode, 1);
+
+			if (!analyseurSyntaxique.isError() && !AnalyseurSemantique.isError()) {
 
                     nbTreeOk ++;
 
@@ -86,6 +88,8 @@ public class Main {
 					flow = "\n\nL'analyseur à rencontré des erreurs. Le code compilé ne sera pas généré ! \n\n";
 				}
 				else {
+					if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
+					flow = "\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
 					flow += "halt\n";
 				}
 				System.out.println(flow);

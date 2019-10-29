@@ -6,14 +6,14 @@ import java.util.HashMap;
 import object.secondary.Node;
 import object.secondary.Symbol;
 
-public class AnalyseSemantique {
+public class AnalyseurSemantique {
 
     private static int nbVariables = 0;
     private static boolean error = false;
 
     private static Stack<HashMap<String, Symbol>> stack = new Stack<HashMap<String, Symbol>>();
 
-    public AnalyseSemantique() {
+    public AnalyseurSemantique() {
     }
 
     public static int getNbVariables() {
@@ -36,9 +36,10 @@ public class AnalyseSemantique {
     public static Symbol declare(Node n) {
         Symbol s = new Symbol(n.getLine(), n.getColumn());
         String name = n.getName();
+        /*System.out.println("declare => name "+ name+ ": " + n.getName()+ " :"+n);*/
         HashMap<String, Symbol> block = stack.peek();
         if (block.containsKey(name)) {
-            System.out.println("Erreur la variable " + name + " est déjà déclaré dans ce bloc !");
+            System.out.println("Erreur la variable \"" + name + "\" est déjà déclaré dans ce bloc !");
             System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
             error = true;
         } else {
@@ -68,7 +69,7 @@ public class AnalyseSemantique {
         while (!s.empty()) {
             stack.push(s.pop());
         }
-        System.out.println("Erreur Symbole " + varIdSymbol + " n'a pas été trouvé !");
+        System.out.println("Erreur le symbole \"" + varIdSymbol + "\" n'a pas été trouvé !");
         System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
         error = true;
         return symbole;
@@ -85,7 +86,7 @@ public class AnalyseSemantique {
                 closeBlock();
                 break;
             case "node_declaration":
-                s = declare(n);
+                s = declare(n.getChild(0));
                 s.setType("variable");
                 s.setSlot(nbVariables);
                 nbVariables++;
@@ -93,7 +94,7 @@ public class AnalyseSemantique {
             case "node_var":
                 s = search(n);
                 if (s.getType() != "variable") {
-                    System.out.println("Variable " + n.getName() + " n'a pas encore été déclarée !");
+                    System.out.println("Erreur, la variable \"" + n.getName() + "\" n'a pas encore été déclarée !");
                     System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
                     error = true;
                 }

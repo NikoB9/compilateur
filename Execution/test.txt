@@ -1,19 +1,16 @@
-//Sanserreur
-variable=3+4;
-//Sanserreur
-debug 5;
-//Sanserreur
-debug 4+3*4-5;
-//Sanserreur
-debug 21+321*2+3*3+1*43;
-//SansErreur
-debug 4+-5;
-a=10;
-if(a==10)
-
-    b=a+5*3;
-    debug b;
-}
-else{
-    debug 0;
+{
+    var variable=3+4;
+    debug 5;
+    debug 4+3*4-5;
+    debug 21+321*2+3*3+1*43;
+    debug 4+-5;
+    debug variable;
+    var a=10;
+    if(a==10){
+        var b=a+5*3;
+        debug b;
+    }
+    else{
+        debug 0;
+    }
 }

@@ -95,6 +95,8 @@ public class Node {
 	    this.slot = s;
     }
 
+    public int getSlot() { return this.slot; }
+
     public int nbChild(){ return childList.size(); }
 
 	public ArrayList<Node> getChildList() {

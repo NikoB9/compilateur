@@ -57,14 +57,6 @@ public class CodeGenerator {
             generatedCode += genCode(n.getChild(1));
             generatedCode += functionsMSM.get(n.getType()) + "\n";
         }
-        else if (n.getType() == "node_var"){
-            generatedCode += "get 0" + "\n";
-        }
-        else if (n.getType() == "node_assignment"){
-            generatedCode += genCode(n.getChild(1));
-            generatedCode += "dup" + "\n";
-            generatedCode += "set 0" + "\n";
-        }
         else if (n.getType() == "node_block"){
             for (int i = 0; i < n.nbChild(); i++){
                 generatedCode += genCode(n.getChild(i));
@@ -89,8 +81,19 @@ public class CodeGenerator {
             generatedCode += "dbg\n";
             generatedCode += "drop\n";
         }
-        else if(n.getType() == "node_end_of_file"){
-                System.out.println("code gene node end of file ");
+        /*else if(n.getType() == "node_end_of_file"){
+            System.out.println("fin de fichier");
+        }*/
+        else if(n.getType() == "node_declaration"){
+            //on ne fait rien
+        }
+        else if(n.getType() == "node_var"){
+            generatedCode += "get " + n.getSlot() + "\n";
+        }
+        else if(n.getType() == "node_assignment"){
+            generatedCode += genCode(n.getChild(1));
+            generatedCode += "dup" + "\n";
+            generatedCode += "set " + n.getChild(0).getSlot() + "\n";
         }
 
         return generatedCode;

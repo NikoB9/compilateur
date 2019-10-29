@@ -40,12 +40,13 @@ public class AnalyseurSyntaxique {
 		nodeOperators.put("tok_assignment", new Operator("node_assignment", 1, 0));
 	}
 
-	public boolean getError(){
+	public boolean isError(){
 		return this.error;
 	}
 
-	public void setError(boolean er){
-		 this.error = er;
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 
 	public Node Primaire() {
@@ -75,6 +76,7 @@ public class AnalyseurSyntaxique {
 			boolean checkValidity = analyseurLexical.accept("tok_closing_parenthesis");
 			if(!checkValidity) {
 				System.out.println("Erreur parenthèse fermante manquante ...  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+				this.error = true;
 //				System.exit(-1);
 				return new Node(analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			}
@@ -178,6 +180,18 @@ public class AnalyseurSyntaxique {
                 N.addNodeChild(Nins);
 
             }
+        }
+	    else if(analyseurLexical.next().getType() == "tok_declaration"){
+			N = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+			analyseurLexical.skip();
+            if(analyseurLexical.next().getType() == "tok_identifier"){
+                N.addNodeChild(new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
+
+            }else{
+                System.out.println("Il manque un identifiant de variable  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
+
         }
 	    else if (analyseurLexical.next().getType() == "tok_open_brace"){
 
