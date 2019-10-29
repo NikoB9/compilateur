@@ -25,9 +25,9 @@ OU pour générer directement le fichier du code compilé pour msm
 1- cd ../Execution & java Main Nom_fichier_de_code_à_lire > Exec
 
 ---FAIT---
-Analyseur lexical : cré des tokens en fonctions des caractères rencontrés. Ignore les espaces et les commentaires.
+Analyseur lexical : cré des tokens en fonctions des caractères rencontrés. Ignore les espaces et les commentaires(//|/**/).
 Analyseur syntaxique : Gère les erreurs; Créer des arbres en fonctions des lignes d'opérations rencontrées. 
-Gère les Instructions, les expressions et les primaire
+Gère les Instructions, les expressions et les primaires
 Les conditionnelles sont fonctionnels 
 Analyseur sémantique :
 Générateur de code : 
