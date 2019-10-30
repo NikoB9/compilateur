@@ -32,11 +32,13 @@ Les conditionnelles sont fonctionnels
 Analyseur sémantique :
 Générateur de code : 
 
+
 ---INFOS IMPORTANTES---
 -UN POINT VIRGULE DOIT SEPARER CHAQUE INSTRUCTION.
 -Dans la gestion d'erreurs les lignes sont comptées sans prendre en compte les lignes vides
 -Un bloc doit englober tout le code si on veut mettre des variables dans le code (en dehors des blocks conditionnels et des boucles). 
- 
+- Declarer la variable de la boucle for avant la boucle.
+
 ---NON FAIT---
 Affectation de variables et boucles (conditionnelles et itératives).
 Node Power
