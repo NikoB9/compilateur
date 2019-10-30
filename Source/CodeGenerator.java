@@ -68,12 +68,13 @@ public class CodeGenerator {
         }
         else if (n.getType() == "node_condition"){
             generatedCode += genCode(n.getChild(0));
-            generatedCode += "jumpf l"+(flagCount*2)+"\n";
+            generatedCode += "jumpf l"+(flagCount)+"\n";
+            flagCount++;
             generatedCode += genCode(n.getChild(1));
-            generatedCode += "jump l"+(flagCount*2+1)+"\n";
-            generatedCode += ".l"+(flagCount*2)+"\n";
+            generatedCode += "jump l"+(flagCount)+"\n";
+            generatedCode += ".l"+(flagCount-1)+"\n";
             generatedCode += (n.nbChild()==2 ? "" : genCode(n.getChild(2)));
-            generatedCode += ".l"+(flagCount*2+1)+"\n";
+            generatedCode += ".l"+(flagCount)+"\n";
             flagCount++;
         }
         else if (n.getType() == "node_debug"){
@@ -94,6 +95,18 @@ public class CodeGenerator {
             generatedCode += genCode(n.getChild(1));
             generatedCode += "dup" + "\n";
             generatedCode += "set " + n.getChild(0).getSlot() + "\n";
+        }
+        else if(n.getType() == "node_loop"){
+            Node cond = n.getChild(0);
+            generatedCode += ".l"+flagCount+"\n";
+            flagCount++;
+            generatedCode += genCode(n.getChild(0));
+            generatedCode += "jump l"+(flagCount-3)+"\n";
+            generatedCode += ".l"+flagCount+"\n";
+            flagCount++;
+        }
+        else if(n.getType() == "node_break"){
+            generatedCode += "jump l"+(flagCount+1)+"\n";
         }
 
         return generatedCode;
