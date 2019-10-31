@@ -58,6 +58,7 @@ public class Main {
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
         String flow="";
+        AnalyseurSemantique.openBlock();
         while(true){
 
 			//System.out.println("\n\nArbre : "+tree+"\n\n");

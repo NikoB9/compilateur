@@ -28,18 +28,20 @@ OU pour générer directement le fichier du code compilé pour msm
 Analyseur lexical : cré des tokens en fonctions des caractères rencontrés. Ignore les espaces et les commentaires(//|/**/).
 Analyseur syntaxique : Gère les erreurs; Créer des arbres en fonctions des lignes d'opérations rencontrées. 
 Gère les Instructions, les expressions et les primaires
-Les conditionnelles sont fonctionnels 
-Analyseur sémantique :
-Générateur de code : 
+Les conditionnelles sont fonctionnels ainsi que l'affectation de variables et boucles (conditionnelles et itératives).
+Analyseur sémantique : permet de gérer la déclaration des variables
+Générateur de code : Gènère le code adapté à msm
 
 
 ---INFOS IMPORTANTES---
--UN POINT VIRGULE DOIT SEPARER CHAQUE INSTRUCTION.
--Dans la gestion d'erreurs les lignes sont comptées sans prendre en compte les lignes vides
--Un bloc doit englober tout le code si on veut mettre des variables dans le code (en dehors des blocks conditionnels et des boucles). 
-- Declarer la variable de la boucle for avant la boucle.
+-UN POINT VIRGULE DOIT SEPARER CHAQUE EXPRESSION (voir exemple Execution/test.txt)
+-Il faut utiliser le mot clé "var" pour déclarer une variable
+-Dans la gestion d'erreurs les lignes sont comptées sans prendre en compte les lignes vident 
+-Declarer la variable de la boucle for avant la boucle.
 
 ---NON FAIT---
-Affectation de variables et boucles (conditionnelles et itératives).
+Do...while
+fonctions
+variables string
+tableaux
 Node Power
-Boucles (while for)

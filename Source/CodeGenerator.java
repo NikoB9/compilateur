@@ -80,7 +80,6 @@ public class CodeGenerator {
         else if (n.getType() == "node_debug"){
             generatedCode += genCode(n.getChild(0));
             generatedCode += "dbg\n";
-            generatedCode += "drop\n";
         }
         /*else if(n.getType() == "node_end_of_file"){
             System.out.println("fin de fichier");
