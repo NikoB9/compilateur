@@ -30,8 +30,8 @@ debug a;
 a=a-1;
 }
 debug -1;
-var i=0;
-for(i=0; i<5; i=i+1){
+
+for(var i=0; i<5; i=i+1){
     a=a+5;
     debug a;
 }

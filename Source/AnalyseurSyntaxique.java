@@ -58,6 +58,17 @@ public class AnalyseurSyntaxique {
 			analyseurLexical.skip();
 			return node;
 		}
+        else if(analyseurLexical.next().getType() == "tok_declaration"){
+            Node node = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            analyseurLexical.skip();
+            if(analyseurLexical.next().getType() == "tok_identifier"){
+                node.addNodeChild(Primaire());
+            }else{
+                System.out.println("Il manque un identifiant de variable  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
+            return node;
+        }
 		//Renvoi un arbre variable si on a un token identifier
 		if (analyseurLexical.next().getType() == "tok_identifier"){
 			Node n = new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
@@ -186,7 +197,6 @@ public class AnalyseurSyntaxique {
 			analyseurLexical.skip();
             if(analyseurLexical.next().getType() == "tok_identifier"){
                 N.addNodeChild(new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
-
             }else{
                 System.out.println("Il manque un identifiant de variable  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;

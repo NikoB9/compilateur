@@ -37,10 +37,9 @@ Générateur de code : Gènère le code adapté à msm
 -UN POINT VIRGULE DOIT SEPARER CHAQUE EXPRESSION (voir exemple Execution/test.txt)
 -Il faut utiliser le mot clé "var" pour déclarer une variable
 -Dans la gestion d'erreurs les lignes sont comptées sans prendre en compte les lignes vident 
--Declarer la variable de la boucle for avant la boucle.
 
 ---NON FAIT---
-Do...while
+Do...while (le while simple est bien pris en compte)
 fonctions
 variables string
 tableaux
