@@ -242,18 +242,24 @@ public class AnalyseurSyntaxique {
 
 			Node I = Expression(0);
 
-			if(! analyseurLexical.accept("tok_separator"))
-				System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			if(! analyseurLexical.accept("tok_separator")){
+                System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
 
 			Node T = Expression(0);
 
-			if(! analyseurLexical.accept("tok_separator"))
-				System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			if(! analyseurLexical.accept("tok_separator")){
+                System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
 
 			Node V = Expression(0);
 
-			if(! analyseurLexical.accept("tok_closing_parenthesis"))
-				System.out.println("Il manque une parenthèse fermente ')'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			if(! analyseurLexical.accept("tok_closing_parenthesis")){
+                System.out.println("Il manque une parenthèse fermente ')'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
 
 
 			Node B = Instruction();
@@ -279,13 +285,17 @@ public class AnalyseurSyntaxique {
 
 			N = new Node("node_loop", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
-			if(! analyseurLexical.accept("tok_openning_parenthesis"))
-				System.out.println("Il manque une parenthèse ouvrante '('  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			if(! analyseurLexical.accept("tok_openning_parenthesis")){
+                System.out.println("Il manque une parenthèse ouvrante '('  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
 
 			Node T = Expression(0);
 
-			if(! analyseurLexical.accept("tok_closing_parenthesis"))
-				System.out.println("Il manque une parenthèse fermente ')'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			if(! analyseurLexical.accept("tok_closing_parenthesis")){
+                System.out.println("Il manque une parenthèse fermente ')'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
 
 			Node B = Instruction();
 
@@ -297,6 +307,41 @@ public class AnalyseurSyntaxique {
 			N.addNodeChild(cond);
 
 		}
+        else if(analyseurLexical.next().getType() == "tok_do"){
+            analyseurLexical.skip();
+
+            Node bloc = Instruction();
+
+            if(! analyseurLexical.accept("tok_while")){
+                System.out.println("Il manque une accolade fermante '}'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
+
+            if(! analyseurLexical.accept("tok_openning_parenthesis")){
+                System.out.println("Il manque une parenthèse ouvrante '('  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
+            
+            Node T = Expression(0);
+
+            if(! analyseurLexical.accept("tok_closing_parenthesis")){
+                System.out.println("Il manque une parenthèse fermente ')'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
+
+            Node cond = new Node("node_condition", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            cond.addNodeChild(T);
+            cond.addNodeChild(bloc);
+            cond.addNodeChild(new Node("node_break", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
+
+            Node loop = new Node("node_loop", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+            loop.addNodeChild(cond);
+
+            N = new Node("node_block", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            N.addNodeChild(bloc);
+            N.addNodeChild(loop);
+        }
 		/*****expressions******/
 	    else {
 

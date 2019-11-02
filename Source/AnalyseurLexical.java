@@ -49,6 +49,7 @@ public class AnalyseurLexical {
 		keywords.put("while", "tok_while");
 		keywords.put("debug", "tok_debug");
         keywords.put("var", "tok_declaration");
+        keywords.put("do", "tok_do");
 	}
 
 	public void skip() {
