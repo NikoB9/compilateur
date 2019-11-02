@@ -10,6 +10,9 @@ public class AnalyseurSemantique {
 
     private static int nbVariables = 0;
     private static boolean error = false;
+    private static int powerResultSlot = -1;
+    private static int powerIncrementSlot = -1;
+    private static int powerMultiplyValueSlot = -1;
 
     private static Stack<HashMap<String, Symbol>> stack = new Stack<HashMap<String, Symbol>>();
 
@@ -23,6 +26,12 @@ public class AnalyseurSemantique {
     public static boolean isError() {
         return error;
     }
+
+    public static int getPowerResultSlot(){ return powerResultSlot; }
+
+    public static int getPowerIncrementSlot(){return powerIncrementSlot;}
+
+    public static int getPowerMultiplyValueSlot(){return powerMultiplyValueSlot;}
 
     public static void openBlock() {
         HashMap<String, Symbol> block = new HashMap<String, Symbol>();
@@ -99,6 +108,17 @@ public class AnalyseurSemantique {
                     error = true;
                 }
                 n.setSlot(s.getSlot());
+                break;
+            case "node_power":
+                if(powerIncrementSlot==-1 || powerResultSlot==-1){
+                    //Réservation de deux cases mémoires pour les calculs de puissances
+                    powerResultSlot=nbVariables;
+                    nbVariables++;
+                    powerIncrementSlot=nbVariables;
+                    nbVariables++;
+                    powerMultiplyValueSlot = nbVariables;
+                    nbVariables++;
+                }
                 break;
             default:
                 for (Node child : n.getChildList()) {

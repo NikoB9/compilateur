@@ -1,4 +1,3 @@
-
 var vari=3+4;
 var varia=4;
 var variab=4;
@@ -35,3 +34,7 @@ for(var i=0; i<5; i=i+1){
     a=a+5;
     debug a;
 }
+
+debug 2^3;
+debug 2^-(5-3);
+debug 9^2;
