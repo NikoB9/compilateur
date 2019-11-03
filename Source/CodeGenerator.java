@@ -55,13 +55,13 @@ public class CodeGenerator {
             // res =1;
             generatedCode += "push 1\n";
             //generatedCode += "dup\n";
-            generatedCode += "set " + AnalyseurSemantique.getPowerResultSlot() + "\n";
+            generatedCode += "set 0\n";
 
             //i=0;
             //Init de la variable d'incrément
             generatedCode += "push 0\n";
             //generatedCode += "dup\n";
-            generatedCode += "set " + AnalyseurSemantique.getPowerIncrementSlot() + "\n";
+            generatedCode += "set 1\n";
 
             //Init getPowerMultiplyValue qui est la valeur absolue de la puissance
             generatedCode += genCode(n.getChild(1));
@@ -76,17 +76,17 @@ public class CodeGenerator {
             generatedCode += "sub\n";
             generatedCode += "mul\n";
             generatedCode += ".l" + flagCount + "\n";
-            generatedCode += "set " + AnalyseurSemantique.getPowerMultiplyValueSlot() + "\n";
+            generatedCode += "set 2\n";
             flagCount++;
 
             generatedCode += ".l" + (flagCount) + "\n";
             flagCount++;
-            generatedCode += "get "+ AnalyseurSemantique.getPowerIncrementSlot() + "\n";
-            generatedCode += "get " + AnalyseurSemantique.getPowerMultiplyValueSlot() + "\n";
+            generatedCode += "get 1\n";
+            generatedCode += "get 2\n";
             generatedCode += "cmplt\n";
             generatedCode += "jumpf l" + (flagCount) + "\n";
             flagCount++;
-            generatedCode += "get " + AnalyseurSemantique.getPowerResultSlot() + "\n";
+            generatedCode += "get 0\n";
             generatedCode += genCode(n.getChild(0));
             //Vérification signe puissance
             //Si positif => mul sinon div
@@ -102,18 +102,18 @@ public class CodeGenerator {
             generatedCode += "div\n";
             generatedCode += ".l" + (flagCount-1) + "\n";
             //generatedCode += "push -1\ndbg\ndup\ndbg\n";//DEBUG
-            generatedCode += "set " + AnalyseurSemantique.getPowerResultSlot() + "\n";
+            generatedCode += "set 0\n";
 
             //incrément
-            generatedCode += "get " + AnalyseurSemantique.getPowerIncrementSlot() + "\n";
+            generatedCode += "get 1\n";
             generatedCode += "push 1\n";
             generatedCode += "add\n";
             //generatedCode += "dup\ndbg\n";
-            generatedCode += "set " + AnalyseurSemantique.getPowerIncrementSlot() + "\n";
+            generatedCode += "set 1\n";
 
             generatedCode += "jump l" + (flagCount-4) + "\n";
             generatedCode += ".l" + (flagCount-3) + "\n";
-            generatedCode += "get " + AnalyseurSemantique.getPowerResultSlot() + "\n";
+            generatedCode += "get 0\n";
         }
         else if (functionsMSM.containsKey(n.getType())){
             generatedCode += genCode(n.getChild(0));
