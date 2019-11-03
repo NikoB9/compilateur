@@ -29,6 +29,7 @@ Analyseur lexical : cré des tokens en fonctions des caractères rencontrés. Ig
 Analyseur syntaxique : Gère les erreurs; Créer des arbres en fonctions des lignes d'opérations rencontrées. 
 Gère les Instructions, les expressions et les primaires
 Les conditionnelles sont fonctionnels ainsi que l'affectation de variables et boucles (conditionnelles et itératives).
+Boucles prise en charge : while; for; do-while
 Analyseur sémantique : permet de gérer la déclaration des variables
 Générateur de code : Gènère le code adapté à msm
 
@@ -39,7 +40,7 @@ Générateur de code : Gènère le code adapté à msm
 -Dans la gestion d'erreurs les lignes sont comptées sans prendre en compte les lignes vident 
 
 ---NON FAIT---
-Do...while (le while simple est bien pris en compte)
 fonctions
 variables string
+Nombre de type flottant (implique qu'un exposant négatif poue un calcul de puissance donnera 0)
 tableaux

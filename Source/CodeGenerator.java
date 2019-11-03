@@ -69,7 +69,7 @@ public class CodeGenerator {
 
             generatedCode += "push 0\n";
             generatedCode += "cmpge\n";
-            //Met 1 si valeur finale>=0
+            //exp valeur>=0
             generatedCode += "jumpt l"+flagCount+"\n";
             generatedCode += "push 0\n";
             generatedCode += "push 1\n";
@@ -114,9 +114,6 @@ public class CodeGenerator {
             generatedCode += "jump l" + (flagCount-4) + "\n";
             generatedCode += ".l" + (flagCount-3) + "\n";
             generatedCode += "get " + AnalyseurSemantique.getPowerResultSlot() + "\n";
-
-
-            //System.out.format("Erreur, le noeud (%s) n'est pas encore pris en charge (ligne : %d ; colonne : %d)\n", n.getType(), n.getLine(), n.getColumn());
         }
         else if (functionsMSM.containsKey(n.getType())){
             generatedCode += genCode(n.getChild(0));
