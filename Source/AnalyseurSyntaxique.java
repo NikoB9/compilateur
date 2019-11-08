@@ -59,20 +59,44 @@ public class AnalyseurSyntaxique {
 			return node;
 		}
         else if(analyseurLexical.next().getType() == "tok_declaration"){
+
             Node node = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
             analyseurLexical.skip();
             if(analyseurLexical.next().getType() == "tok_identifier"){
-                node.addNodeChild(Primaire());
+                node.addNodeChild(new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
+                analyseurLexical.skip();
             }else{
                 System.out.println("Il manque un identifiant de variable  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;
             }
+
             return node;
+
         }
-		//Renvoi un arbre variable si on a un token identifier
+        //Renvoi un arbre variable ou fonction si on a un token identifier
 		if (analyseurLexical.next().getType() == "tok_identifier"){
 			Node n = new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			analyseurLexical.skip();
+            if (analyseurLexical.accept("tok_openning_parenthesis")){
+                n.setType("node_call_function");
+                //Tant qu'il y a des arguments on les traites
+                while (analyseurLexical.next().getType() != "tok_closing_parenthesis" || analyseurLexical.next().getType() != "tok_end_of_file"){
+
+                    Node E = Expression(0);
+                    analyseurLexical.skip();
+
+                    if(!analyseurLexical.accept("tok_comma") && analyseurLexical.next().getType() != "tok_closing_parenthesis"){
+                        System.out.println("Il manque une virgule pour séparer les arguments passé à la fonction ','\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                        this.error = true;
+                    }
+                    n.addNodeChild(E);
+                }
+
+                if(!analyseurLexical.accept("tok_closing_parenthesis")){
+                    System.out.println("Il manque une parenthèse fermente ')'\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                    this.error = true;
+                }
+            }
 			return n;
 		}
 		//Renvoi un arbre contenant l'ensemble des calculs mathematiques, expression boolean
@@ -201,7 +225,6 @@ public class AnalyseurSyntaxique {
                 System.out.println("Il manque un identifiant de variable  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;
             }
-
         }
 	    else if (analyseurLexical.next().getType() == "tok_open_brace"){
 
@@ -342,6 +365,11 @@ public class AnalyseurSyntaxique {
             N.addNodeChild(bloc);
             N.addNodeChild(loop);
         }
+        else if (analyseurLexical.next().getType() == "return"){
+            analyseurLexical.skip();
+            N = new Node("node_return", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            N.addNodeChild(Expression(0));
+        }
 		/*****expressions******/
 	    else {
 
@@ -357,6 +385,71 @@ public class AnalyseurSyntaxique {
         }
 
 	    return N;
+
+    }
+
+    public Node Function(){
+
+	    Node fct = new Node(analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+        //Renvoi un arbre création fonction si on a un token identifier
+        if (analyseurLexical.next().getType() == "tok_function_declaration"){
+
+            //Récupération du nom de la fonction et création du block
+            analyseurLexical.skip();
+            if(analyseurLexical.next().getType() == "tok_identifier"){
+                fct = new Node("node_function", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            }else{
+                System.out.println("Il manque un identifiant de fonction  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
+            analyseurLexical.skip();
+            Node block = new Node("node_block", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+            //Vérifie qu'on ouvre bien la parenthèse après l'appel de fonction
+            if(!analyseurLexical.accept("tok_openning_parenthesis")){
+                System.out.println("Il manque une parenthèse ouvrante '('\nVotre fihcier doit être composé de fonctions.  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
+                System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
+                this.error = true;
+            }
+
+            //Tant qu'il y a des déclarations d'arguments on les traites
+            while (analyseurLexical.next().getType() != "tok_closing_parenthesis" || analyseurLexical.next().getType() != "tok_end_of_file"){
+
+                Node arg = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+                if(analyseurLexical.next().getType() == "tok_identifier"){
+                    arg.addNodeChild(new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
+                }else{
+                    System.out.println("Il manque un identifiant pour les paramètres de la fonctions  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                    this.error = true;
+                }
+                analyseurLexical.skip();
+
+                if(!analyseurLexical.accept("tok_comma") && analyseurLexical.next().getType() != "tok_closing_parenthesis"){
+                    System.out.println("Il manque une virgule pour séparer la déclaration des paramètres la fonction ','\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                    this.error = true;
+                }
+                block.addNodeChild(arg);
+            }
+
+            if(!analyseurLexical.accept("tok_openning_parenthesis")){
+                System.out.println("Il manque une parenthèse fermente ')'\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                this.error = true;
+            }
+
+            block.addNodeChild(Instruction());
+            fct.addNodeChild(block);
+
+        }
+        else {
+            System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
+            System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
+            this.error = true;
+        }
+
+        return fct;
 
     }
 

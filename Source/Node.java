@@ -77,7 +77,11 @@ public class Node {
     public void setLine(int line){ this.line = line; }
     public void setColumn(int column){ this.column = column; }
 
-	public String getType() {
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
 		return type;
 	}
 

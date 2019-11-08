@@ -41,6 +41,7 @@ public class AnalyseurLexical {
 		character.put("|","tok_or");
 		character.put("=","tok_assignment");
 		character.put("!","tok_not");
+        character.put(",","tok_comma");
 
 		//Remplissage du tableau de mots cl�s
 		keywords.put("for", "tok_for");
@@ -49,6 +50,7 @@ public class AnalyseurLexical {
 		keywords.put("while", "tok_while");
 		keywords.put("debug", "tok_debug");
         keywords.put("var", "tok_declaration");
+        keywords.put("fonction", "tok_function_declaration");
         keywords.put("do", "tok_do");
 	}
 
