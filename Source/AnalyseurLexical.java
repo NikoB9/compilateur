@@ -112,7 +112,7 @@ public class AnalyseurLexical {
 						endIndex++;
 					}
 
-					if(endIndex+1 < line.length() && line.codePointAt(endIndex) == 42 && line.codePointAt(endIndex+1) == 47) {
+					if(endIndex < line.length() && line.codePointAt(endIndex-1) == 42 && line.codePointAt(endIndex) == 47) {
 						blockComment = false;
 					}
 

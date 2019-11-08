@@ -13,9 +13,9 @@ debug varia;
 
 
 debug vari;
-*/
+
 var a=10;
-/*if(a==10){
+if(a==10){
     var b=a+5*3;
     debug b;
 }
@@ -29,21 +29,26 @@ while(a>5){
 debug a;
 a=a-1;
 }
-debug -1;
+debug -1; 
+*/
+var a=4;
 var i;
-for(var i=0; i<5; i=i+1){
+for(i=0; i<5; i=i+1){
     a=a+5;
     debug a;
 }
+/*
 
 debug 2^8;
 debug 2^0;
 debug 2^-(5-3);
 debug 9^2;
-*/
+
 var r=4;
 
 do{
 debug r;
 r=r-1;
 }while( r!=0)
+
+*/
