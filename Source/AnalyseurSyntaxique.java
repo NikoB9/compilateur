@@ -344,7 +344,7 @@ public class AnalyseurSyntaxique {
                 System.out.println("Il manque une parenthèse ouvrante '('  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;
             }
-            
+
             Node T = Expression(0);
 
             if(! analyseurLexical.accept("tok_closing_parenthesis")){

@@ -1,4 +1,4 @@
-var vari=3+4;
+/*var vari=3+4;
 var varia=4;
 var variab=4;
 debug 5;
@@ -13,8 +13,9 @@ debug varia;
 
 
 debug vari;
+*/
 var a=10;
-if(a==10){
+/*if(a==10){
     var b=a+5*3;
     debug b;
 }
@@ -39,7 +40,7 @@ debug 2^8;
 debug 2^0;
 debug 2^-(5-3);
 debug 9^2;
-
+*/
 var r=4;
 
 do{
