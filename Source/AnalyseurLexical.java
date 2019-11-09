@@ -103,16 +103,17 @@ public class AnalyseurLexical {
 				//ASCII "/*" : 47 et 42
 				else if((columnIndex+1 < line.length() && (asciiChar == 47 && line.codePointAt(columnIndex+1) == 42)) || blockComment) {
 
+					int endIndex = blockComment ? columnIndex : columnIndex+2;
+
 					blockComment = true;
 
-					int endIndex = columnIndex+1;
 					//Tant qu'il n'y a pas de fin de commentaire de block on avance dans le fichier sans rien faire
 					//ASCII "*/" : 42 et 47
 					while(endIndex+1 < line.length() && line.codePointAt(endIndex) != 42 && line.codePointAt(endIndex+1) != 47){
 						endIndex++;
 					}
 
-					if(endIndex < line.length() && line.codePointAt(endIndex-1) == 42 && line.codePointAt(endIndex) == 47) {
+					if(endIndex+1 < line.length() && line.codePointAt(endIndex) == 42 && line.codePointAt(endIndex+1) == 47) {
 						blockComment = false;
 					}
 
