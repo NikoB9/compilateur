@@ -95,13 +95,13 @@ public class AnalyseurLexical {
 
 				//Si on est face � un commentaire de ligne
 				//ASCII "/" : 47
-				if(asciiChar == 47 && line.codePointAt(columnIndex+1) == 47) {
+				if(columnIndex+1 < line.length() && asciiChar == 47 && line.codePointAt(columnIndex+1) == 47) {
 					//On passe � la ligne suivante
 					columnIndex = line.length() - 1;
 				}
 				//on est face � un commentaire de bloque
 				//ASCII "/*" : 47 et 42
-				else if((asciiChar == 47 && line.codePointAt(columnIndex+1) == 42) || blockComment) {
+				else if((columnIndex+1 < line.length() && (asciiChar == 47 && line.codePointAt(columnIndex+1) == 42)) || blockComment) {
 
 					blockComment = true;
 
@@ -171,28 +171,28 @@ public class AnalyseurLexical {
 
 
 					//Si �a commence par "="
-					if(asciiChar == 61 && line.codePointAt(columnIndex+1) == 61) {
+					if(columnIndex+1 < line.length() && asciiChar == 61 && line.codePointAt(columnIndex+1) == 61) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 						columnIndex++;
 					}
 					//Si �a commence par "<"
-					else if(asciiChar == 60 && line.codePointAt(columnIndex+1) == 61) {
+					else if(columnIndex+1 < line.length() && asciiChar == 60 && line.codePointAt(columnIndex+1) == 61) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 						columnIndex++;
 					}
 					//Si �a commence par ">"
-					else if(asciiChar == 62 && line.codePointAt(columnIndex+1) == 61) {
+					else if(columnIndex+1 < line.length() && asciiChar == 62 && line.codePointAt(columnIndex+1) == 61) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 						columnIndex++;
 					}
 					//Si �a commence par "!"
-					else if(asciiChar == 33 && line.codePointAt(columnIndex+1) == 61) {
+					else if(columnIndex+1 < line.length() && asciiChar == 33 && line.codePointAt(columnIndex+1) == 61) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
