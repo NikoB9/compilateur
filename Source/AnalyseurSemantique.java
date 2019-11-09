@@ -19,6 +19,7 @@ public class AnalyseurSemantique {
     public static int getNbVariables() {
         return nbVariables;
     }
+    public static void setNbVariables(int nbv){ nbVariables = nbv; }
 
     public static boolean isError() {
         return error;
@@ -101,7 +102,7 @@ public class AnalyseurSemantique {
             case "node_function":
                 s = declare(n, "function");
                 s.setType("function");
-                break;
+                //On enleve le break pour que default soit appelé par la suite
             case "node_call_function":
                 s = search(n);
                 if (s.getType() != "function") {
