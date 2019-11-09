@@ -16,24 +16,30 @@ function Main(){
     debug vari;
 
     var a=10;
-    if(a==10){
+    if
+    (a==10)
+    {
         var b=a+5*3;
         debug b;
     }
-    else{
+    else
+    {
         debug 0;
     }
 
     debug 0;
 
-    while(a>5){
+    while
+    (a>5)
+    {
     debug a;
     a=a-1;
     }
     debug -1;
 
-    var i;
-    for(i=0; i<5; i=i+1){
+    for
+    (var i=0; i<5; i=i+1)
+    {
         a=a+5;
         debug a;
     }
@@ -44,8 +50,10 @@ function Main(){
 
     var r=4;
 
-    do{
+    do
+    {
     debug r;
     r=r-1;
-    }while( r!=0)
+    }
+    while( r!=0)
 }

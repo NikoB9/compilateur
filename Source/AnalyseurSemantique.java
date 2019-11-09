@@ -102,7 +102,10 @@ public class AnalyseurSemantique {
             case "node_function":
                 s = declare(n, "function");
                 s.setType("function");
-                //On enleve le break pour que default soit appelé par la suite
+                for (Node child : n.getChildList()) {
+                    nodeAnalyse(child);
+                }
+                break;
             case "node_call_function":
                 s = search(n);
                 if (s.getType() != "function") {
