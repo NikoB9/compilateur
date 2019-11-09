@@ -52,6 +52,7 @@ public class AnalyseurLexical {
         keywords.put("var", "tok_declaration");
         keywords.put("function", "tok_function_declaration");
         keywords.put("do", "tok_do");
+		keywords.put("return", "tok_return");
 	}
 
 	public void skip() {

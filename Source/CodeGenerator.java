@@ -171,7 +171,15 @@ public class CodeGenerator {
             generatedCode += "jump l"+(flagCount+1)+"\n";
         }
         else if(n.getType() == "node_function"){
-            
+            generatedCode += "." + n.getName() + "\n";
+            //-1 car on reserve seulement le nombre d'arguments et non l'instruction qui est à la fin
+            int nbArgs = n.getChild(0).nbChild()-1;
+            generatedCode += "resn" + (AnalyseurSemantique.getNbVariables() - nbArgs) + "\n";
+            //on génère le code de l'instruction
+            generatedCode += genCode(n.getChild(0).getChild(nbArgs));
+
+            generatedCode += "push 0 " + "\n";
+            generatedCode += "ret " + "\n";
         }
         else if(n.getType() == "node_call_function"){
             generatedCode += "prep " + n.getName() + "\n";
@@ -180,6 +188,11 @@ public class CodeGenerator {
             }
             generatedCode += "call " + n.nbChild();
         }
+        else if(n.getType() == "return"){
+            generatedCode += genCode(n.getChild(0));
+            generatedCode += "ret " + "\n";
+        }
+
 
         return generatedCode;
     }

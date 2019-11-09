@@ -445,15 +445,15 @@ public class AnalyseurSyntaxique {
 
         }
         //Si on n'accepte pas les instruction à l'extérieur des fonctions
-        /*else {
+        else {
             System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
             System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
             this.error = true;
-        }*/
-        //Si on accepte
-        else {
-            fct = Instruction();
         }
+        //Si on accepte
+        /*else {
+            fct = Instruction();
+        }*/
 
         return fct;
 
