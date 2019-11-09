@@ -33,13 +33,13 @@ public class AnalyseurSemantique {
         stack.pop();
     }
 
-    public static Symbol declare(Node n) {
+    public static Symbol declare(Node n, String type) {
         Symbol s = new Symbol(n.getLine(), n.getColumn());
         String name = n.getName();
         /*System.out.println("declare => name "+ name+ ": " + n.getName()+ " :"+n);*/
         HashMap<String, Symbol> block = stack.peek();
         if (block.containsKey(name)) {
-            System.out.println("Erreur la variable \"" + name + "\" est déjà déclaré dans ce bloc !");
+            System.out.println("Erreur la "+type+" \"" + name + "\" est déjà déclaré dans ce bloc en tant que variable ou fonction !");
             System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
             error = true;
         } else {
@@ -51,27 +51,25 @@ public class AnalyseurSemantique {
     public static Symbol search(Node n) {
         Symbol symbole = new Symbol();
         Stack<HashMap<String, Symbol>> s = new Stack<HashMap<String, Symbol>>();
-        String varIdSymbol = n.getName();
+        String idSymbol = n.getName();
 
         while (!stack.empty()) {
             s.push(stack.pop());
             HashMap<String, Symbol> block = s.peek();
-            if (block.containsKey(varIdSymbol)) {
+            if (block.containsKey(idSymbol)) {
                 //réempiler la pile
                 while (!s.empty()) {
                     stack.push(s.pop());
                 }
-                return block.get(varIdSymbol);
+                return block.get(idSymbol);
             }
         }
 
         //If symbol not found, re-stack
+        //réempiler la pile
         while (!s.empty()) {
             stack.push(s.pop());
         }
-        System.out.println("Erreur le symbole \"" + varIdSymbol + "\" n'a pas été trouvé !");
-        System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
-        error = true;
         return symbole;
     }
 
@@ -86,7 +84,7 @@ public class AnalyseurSemantique {
                 closeBlock();
                 break;
             case "node_declaration":
-                s = declare(n.getChild(0));
+                s = declare(n.getChild(0), "variable");
                 s.setType("variable");
                 s.setSlot(nbVariables);
                 nbVariables++;
@@ -95,6 +93,19 @@ public class AnalyseurSemantique {
                 s = search(n);
                 if (s.getType() != "variable") {
                     System.out.println("Erreur, la variable \"" + n.getName() + "\" n'a pas encore été déclarée !");
+                    System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
+                    error = true;
+                }
+                n.setSlot(s.getSlot());
+                break;
+            case "node_function":
+                s = declare(n, "function");
+                s.setType("function");
+                break;
+            case "node_call_function":
+                s = search(n);
+                if (s.getType() != "function") {
+                    System.out.println("Erreur, la fonction \"" + n.getName() + "\" n'a pas encore été déclarée !");
                     System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
                     error = true;
                 }

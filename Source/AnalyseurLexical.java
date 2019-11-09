@@ -50,7 +50,7 @@ public class AnalyseurLexical {
 		keywords.put("while", "tok_while");
 		keywords.put("debug", "tok_debug");
         keywords.put("var", "tok_declaration");
-        keywords.put("fonction", "tok_function_declaration");
+        keywords.put("function", "tok_function_declaration");
         keywords.put("do", "tok_do");
 	}
 

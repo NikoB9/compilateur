@@ -388,6 +388,7 @@ public class AnalyseurSyntaxique {
 
     }
 
+
     public Node Function(){
 
 	    Node fct = new Node(analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
@@ -410,7 +411,7 @@ public class AnalyseurSyntaxique {
             if(!analyseurLexical.accept("tok_openning_parenthesis")){
                 System.out.println("Il manque une parenthèse ouvrante '('\nVotre fihcier doit être composé de fonctions.  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
-                System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
+                //System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
                 this.error = true;
             }
 
@@ -443,10 +444,15 @@ public class AnalyseurSyntaxique {
             fct.addNodeChild(block);
 
         }
-        else {
+        //Si on n'accepte pas les instruction à l'extérieur des fonctions
+        /*else {
             System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
             System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
             this.error = true;
+        }*/
+        //Si on accepte
+        else {
+            fct = Instruction();
         }
 
         return fct;

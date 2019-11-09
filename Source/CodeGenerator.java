@@ -170,6 +170,16 @@ public class CodeGenerator {
         else if(n.getType() == "node_break"){
             generatedCode += "jump l"+(flagCount+1)+"\n";
         }
+        else if(n.getType() == "node_function"){
+            
+        }
+        else if(n.getType() == "node_call_function"){
+            generatedCode += "prep " + n.getName() + "\n";
+            for(Node child : n.getChildList()){
+                generatedCode += genCode(child);
+            }
+            generatedCode += "call " + n.nbChild();
+        }
 
         return generatedCode;
     }
