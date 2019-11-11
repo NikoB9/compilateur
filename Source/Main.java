@@ -44,13 +44,22 @@ public class Main {
 		//LIBRAIRIES
 		//ON PAR DU PRINCIPE QUE LES LIBRAIRIES SONT IMPLEMENTEES PAR NOUS ET NE COMPORTENT DONC PAS D'ERREUR
 		String flow="";
+
+		/*****Debut de programme : ouverture de bloc*******/
+		AnalyseurSemantique.openBlock();
+
 		for (int f = 0; f<libraries.size(); f++){
 
 			File lib = new File(basePath+"\\"+libraries.get(f));
 			AnalyseurLexical alLib = new AnalyseurLexical(lib);
+			alLib.analyse();
 			AnalyseurSyntaxique asLib = new AnalyseurSyntaxique(alLib);
 
-			while(true){
+			//System.out.println(lib);
+			//System.out.println(alLib);
+
+			boolean verif = true;
+			while(verif){
 				Node principalNodeLib = asLib.Function();
 				AnalyseurSemantique.nodeAnalyse(principalNodeLib);
 
@@ -59,7 +68,7 @@ public class Main {
 
 
 				if (alLib.accept("tok_end_of_file")) {
-					return ;
+					verif = false;
 				}
 				asLib.setError(false);
 			}
@@ -89,9 +98,6 @@ public class Main {
 		int tree = 1;
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
-
-        /*****Debut de programme : ouverture de bloc*******/
-        AnalyseurSemantique.openBlock();
 
         while(true){
 

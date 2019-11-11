@@ -254,7 +254,7 @@ public class CodeGenerator {
             for(Node child : n.getChildList()){
                 generatedCode += genCode(child);
             }
-            generatedCode += "call " + n.nbChild();
+            generatedCode += "call " + n.nbChild()+ "\n";
         }
         else if(n.getType() == "return"){
             generatedCode += genCode(n.getChild(0));

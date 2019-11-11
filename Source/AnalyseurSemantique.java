@@ -38,7 +38,8 @@ public class AnalyseurSemantique {
         Symbol s = new Symbol(n.getLine(), n.getColumn());
         String name = n.getName();
         /*System.out.println("declare => name "+ name+ ": " + n.getName()+ " :"+n);*/
-        HashMap<String, Symbol> block = stack.peek();
+        HashMap<String, Symbol> block = new HashMap<String, Symbol>();
+        if(!stack.empty()) block = stack.peek();
         if (block.containsKey(name)) {
             System.out.println("Erreur la "+type+" \"" + name + "\" est déjà déclaré dans ce bloc en tant que variable ou fonction !");
             System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
@@ -118,6 +119,8 @@ public class AnalyseurSemantique {
                 }
                 if (s.getNbParameters() != n.nbChild()){
                     System.out.println("Erreur, le nombre d'arguments passés à la fonction \"" + n.getName() + "\" est incorrect.");
+                    System.out.println("La fonction attend " + s.getNbParameters() + " arguments.");
+                    System.out.println(n.nbChild() + " arguments ont été donnés.\n");
                     System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
                     error = true;
                 }

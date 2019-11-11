@@ -72,12 +72,11 @@ public class AnalyseurSyntaxique {
             if (analyseurLexical.accept("tok_openning_parenthesis")){
                 n.setType("node_call_function");
                 //Tant qu'il y a des arguments on les traites
-                while (analyseurLexical.next().getType() != "tok_closing_parenthesis" || analyseurLexical.next().getType() != "tok_end_of_file"){
+                while (analyseurLexical.next().getType() != "tok_closing_parenthesis" && analyseurLexical.next().getType() != "tok_end_of_file"){
 
                     Node E = Expression(0);
-                    analyseurLexical.skip();
 
-                    if(!analyseurLexical.accept("tok_comma") && analyseurLexical.next().getType() != "tok_closing_parenthesis"){
+                    if(!analyseurLexical.accept("tok_comma") && analyseurLexical.next().getType() != "tok_closing_parenthesis"  && analyseurLexical.next().getType() != "tok_end_of_file"){
                         System.out.println("Il manque une virgule pour séparer les arguments passé à la fonction ','\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                         this.error = true;
                     }
@@ -365,6 +364,11 @@ public class AnalyseurSyntaxique {
             analyseurLexical.skip();
             N = new Node("node_return", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
             N.addNodeChild(Expression(0));
+			if (!analyseurLexical.accept("tok_separator")){
+				System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+				analyseurLexical.skip();
+				this.error = true;
+			}
         }
         else if(analyseurLexical.next().getType() == "tok_continue"){
             analyseurLexical.skip();
@@ -450,7 +454,7 @@ public class AnalyseurSyntaxique {
                 }
                 analyseurLexical.skip();
 
-                if(!analyseurLexical.accept("tok_comma") && analyseurLexical.next().getType() != "tok_closing_parenthesis"){
+                if(!analyseurLexical.accept("tok_comma") && analyseurLexical.next().getType() != "tok_closing_parenthesis" && analyseurLexical.next().getType() != "tok_end_of_file"){
                     System.out.println("Il manque une virgule pour séparer la déclaration des paramètres la fonction ','\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                     this.error = true;
                 }
