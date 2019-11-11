@@ -53,6 +53,8 @@ public class AnalyseurLexical {
         keywords.put("function", "tok_function_declaration");
         keywords.put("do", "tok_do");
 		keywords.put("return", "tok_return");
+		keywords.put("continue", "tok_continue");
+		keywords.put("break", "tok_break");
 	}
 
 	public void skip() {
@@ -208,7 +210,8 @@ public class AnalyseurLexical {
 						if (asciiChar == 59) {
 							this.tokenList.add(new Token("tok_separator", lineIndex, columnIndex));
 						}
-						else if (asciiChar != 32) {
+						else if (asciiChar != 32 && asciiChar != 9) {
+						    //9 => horizontal tab
 							this.tokenList.add(new Token("tok_unknown", lineIndex, columnIndex));
 							System.out.println("tok_unknown : "+asciiChar);
 						}

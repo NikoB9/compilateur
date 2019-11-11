@@ -58,15 +58,12 @@ public class Main {
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
         String flow="";
-
-        /*****Debut de programme : ouverture de bloc*******/
         AnalyseurSemantique.openBlock();
-
         while(true){
 
 			//System.out.println("\n\nArbre : "+tree+"\n\n");
 
-			Node principalNode = analyseurSyntaxique.Function();
+			Node principalNode = analyseurSyntaxique.Instruction();
             AnalyseurSemantique.nodeAnalyse(principalNode);
 
 			if (debugMode) Node.print(principalNode, 1);
@@ -76,7 +73,6 @@ public class Main {
                     nbTreeOk ++;
 
 					flow += CodeGenerator.genCode(principalNode);
-                    AnalyseurSemantique.setNbVariables(3);
 			}
 			else {
 			    nbTreeErr ++;
@@ -93,11 +89,9 @@ public class Main {
 					flow = "\n\nL'analyseur à rencontré des erreurs. Le code compilé ne sera pas généré ! \n\n";
 				}
 				else {
-					//if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
-                    if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n"+flow;
-					//flow = "\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
-					//flow += "halt\n";
-                    else flow += ".start\nprep Main\ncall 0\nhalt\n";
+					if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
+					flow = "\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
+					flow += "halt\n";
 				}
 				System.out.println(flow);
 				return ;

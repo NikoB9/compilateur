@@ -1,6 +1,8 @@
 package object.primary;
 
 import java.util.HashMap;
+import java.util.Stack;
+import java.util.ArrayList;
 
 import object.secondary.Node;
 import object.primary.AnalyseurSemantique;
@@ -10,6 +12,8 @@ public class CodeGenerator {
     private static int flagCount = 0;
 
     private static HashMap<String,String> functionsMSM = new HashMap<String, String>();
+    private static Stack<HashMap<String, ArrayList<Integer>>> stack = new Stack<HashMap<String, ArrayList<Integer>>>();
+
     static {
         functionsMSM.put("node_divide","div");
         functionsMSM.put("node_remaindor", "mod");
@@ -31,6 +35,57 @@ public class CodeGenerator {
     }
     
     public CodeGenerator(){
+    }
+
+    public static void declare(String type){
+        HashMap<String, ArrayList<Integer>> bloc = new HashMap<String, ArrayList<Integer>>();
+        ArrayList<Integer> flags = new ArrayList<Integer>();
+
+        int nbFlag=0;
+        if(type=="cond"){
+            nbFlag=2;
+        }
+        else if(type=="loop"){
+            nbFlag=3;
+        }
+
+        for(int i=0; i<nbFlag; i++){
+            flags.add(flagCount);
+            flagCount++;
+        }
+        /*
+        * Une loop a besoin de 3 flags :
+        *   1. pour la boucle
+        *   2. pour la sortie de boucle
+        *   3. pour le continue
+        * Un cond a besoin de 2 flags :
+        *   1. pour saut vers l'expression à exécuter si FAUX
+        *   2. pour sauter l'expression à exécuter si FAUX
+        * */
+
+        bloc.put(type, flags);
+        stack.push(bloc);
+    }
+
+    public static void delete(){
+        stack.pop();
+    }
+
+    public static ArrayList<Integer> searchFlags(String type){
+        Stack<HashMap<String, ArrayList<Integer>>> s = new Stack<HashMap<String, ArrayList<Integer>>>();
+        while (!stack.empty()) {
+            s.push(stack.pop());
+            HashMap<String, ArrayList<Integer>> block = s.peek();
+            if (block.containsKey(type)) {
+                //réempiler la pile
+                while (!s.empty()) {
+                    stack.push(s.pop());
+                }
+                return block.get(type);
+            }
+        }
+
+        return new ArrayList<Integer>();
     }
 
 
@@ -130,15 +185,20 @@ public class CodeGenerator {
             generatedCode += "drop\n";
         }
         else if (n.getType() == "node_condition"){
+            //On ajoute dans la pile un Hashmap contenant les flags qui seront utilisés
+            declare("cond");
+            //On récupère les flags
+            ArrayList<Integer> flags = searchFlags("cond");
+            //System.out.println("cond : "+stack.toString()+flags.toString());
             generatedCode += genCode(n.getChild(0));
-            generatedCode += "jumpf l"+(flagCount)+"\n";
-            flagCount++;
+            generatedCode += "jumpf l"+(flags.get(0))+"\n";
             generatedCode += genCode(n.getChild(1));
-            generatedCode += "jump l"+(flagCount)+"\n";
-            generatedCode += ".l"+(flagCount-1)+"\n";
+            generatedCode += "jump l"+(flags.get(1))+"\n";
+            generatedCode += ".l"+(flags.get(0))+"\n";
             generatedCode += (n.nbChild()==2 ? "" : genCode(n.getChild(2)));
-            generatedCode += ".l"+(flagCount)+"\n";
-            flagCount++;
+            generatedCode += ".l"+(flags.get(1))+"\n";
+            //On retire le hashmap de la pile
+            delete();
         }
         else if (n.getType() == "node_debug"){
             generatedCode += genCode(n.getChild(0));
@@ -159,22 +219,30 @@ public class CodeGenerator {
             generatedCode += "set " + n.getChild(0).getSlot() + "\n";
         }
         else if(n.getType() == "node_loop"){
-            Node cond = n.getChild(0);
-            generatedCode += ".l"+flagCount+"\n";
-            flagCount++;
+            //On ajoute dans la pile un Hashmap contenant les flags qui seront utilisés
+            declare("loop");
+            //On récupère les flags
+            ArrayList<Integer> flags = searchFlags("loop");
+            //System.out.println("loop : "+stack.toString()+flags.toString());
+            //Node cond = n.getChild(0);
+            generatedCode += ".l"+flags.get(0)+"\n";
             generatedCode += genCode(n.getChild(0));
-            generatedCode += "jump l"+(flagCount-3)+"\n";
-            generatedCode += ".l"+flagCount+"\n";
-            flagCount++;
+            generatedCode += "jump l"+(flags.get(0))+"\n";
+            generatedCode += ".l"+flags.get(1)+"\n";
+            //On retire le hashmap de la pile
+            delete();
         }
         else if(n.getType() == "node_break"){
-            generatedCode += "jump l"+(flagCount+1)+"\n";
+            //On récupère les flags
+            ArrayList<Integer> flags = searchFlags("loop");
+            //System.out.println("break : "+stack.toString()+flags.toString());
+            generatedCode += "jump l"+(flags.get(1))+"\n";
         }
         else if(n.getType() == "node_function"){
             generatedCode += "." + n.getName() + "\n";
             //-1 car on reserve seulement le nombre d'arguments et non l'instruction qui est à la fin
             int nbArgs = n.getChild(0).nbChild()-1;
-            generatedCode += "resn " + (AnalyseurSemantique.getNbVariables() - nbArgs) + "\n";
+            generatedCode += "resn" + (AnalyseurSemantique.getNbVariables() - nbArgs) + "\n";
             //on génère le code de l'instruction
             generatedCode += genCode(n.getChild(0).getChild(nbArgs));
 
@@ -192,8 +260,21 @@ public class CodeGenerator {
             generatedCode += genCode(n.getChild(0));
             generatedCode += "ret " + "\n";
         }
-
-
+        else if(n.getType() == "node_flag_continue"){
+            //On récupère les flags
+            ArrayList<Integer> flags = searchFlags("loop");
+            generatedCode += ".l"+ flags.get(2) + "\n";
+        }
+        else if(n.getType() == "node_continue_for"){
+            //On récupère les flags
+            ArrayList<Integer> flags = searchFlags("loop");
+            generatedCode += "jump l"+ flags.get(2) + "\n";
+        }
+        else if(n.getType() == "node_continue_while"){
+            //On récupère les flags
+            ArrayList<Integer> flags = searchFlags("loop");
+            generatedCode += "jump l"+ flags.get(0) + "\n";
+        }
         return generatedCode;
     }
     

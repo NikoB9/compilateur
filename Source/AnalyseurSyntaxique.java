@@ -12,6 +12,9 @@ public class AnalyseurSyntaxique {
 	private Node principalNode;
 	private HashMap<String, Operator> nodeOperators = new HashMap<String, Operator>();
 	private boolean error = false;
+	//Indicates what is the last type of loop we're working on
+	//It helps with generating specific node_continue for each type of loop
+	private String typeOfLoop = "";
 
 	public AnalyseurSyntaxique(AnalyseurLexical analyseurLexical) {
 		this.analyseurLexical = analyseurLexical;
@@ -257,6 +260,7 @@ public class AnalyseurSyntaxique {
 		}
 		else if(analyseurLexical.next().getType() == "tok_for"){
 			analyseurLexical.skip();
+			typeOfLoop = "for";
 
 			N = new Node("node_block", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
@@ -289,6 +293,7 @@ public class AnalyseurSyntaxique {
 
 			Node blockBodyFor = new Node("node_block", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			blockBodyFor.addNodeChild(B);
+			blockBodyFor.addNodeChild(new Node("node_flag_continue", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
 			blockBodyFor.addNodeChild(V);
 
 			Node cond = new Node("node_condition", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
@@ -305,6 +310,7 @@ public class AnalyseurSyntaxique {
 		}
 		else if(analyseurLexical.next().getType() == "tok_while"){
 			analyseurLexical.skip();
+			typeOfLoop = "while";
 
 			N = new Node("node_loop", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
@@ -332,6 +338,7 @@ public class AnalyseurSyntaxique {
 		}
         else if(analyseurLexical.next().getType() == "tok_do"){
             analyseurLexical.skip();
+			typeOfLoop = "while";
 
             Node bloc = Instruction();
 
@@ -365,11 +372,37 @@ public class AnalyseurSyntaxique {
             N.addNodeChild(bloc);
             N.addNodeChild(loop);
         }
-        else if (analyseurLexical.next().getType() == "return"){
+        else if (analyseurLexical.next().getType() == "tok_return"){
             analyseurLexical.skip();
             N = new Node("node_return", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
             N.addNodeChild(Expression(0));
         }
+        else if(analyseurLexical.next().getType() == "tok_continue"){
+            analyseurLexical.skip();
+			if (!analyseurLexical.accept("tok_separator")){
+				System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+				analyseurLexical.skip();
+				this.error = true;
+			}
+			String nodeName = "";
+			//indicates what type of loop the continue is called for specific action in codeGenerator
+			if(typeOfLoop=="for"){
+				nodeName = "node_continue_for";
+			}
+			else{ //while loop
+				nodeName = "node_continue_while";
+			}
+            N = new Node(nodeName, analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+        }
+		else if(analyseurLexical.next().getType() == "tok_break"){
+			analyseurLexical.skip();
+			if (!analyseurLexical.accept("tok_separator")){
+				System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+				analyseurLexical.skip();
+				this.error = true;
+			}
+			N = new Node("node_break", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+		}
 		/*****expressions******/
 	    else {
 
@@ -416,7 +449,7 @@ public class AnalyseurSyntaxique {
             }
 
             //Tant qu'il y a des déclarations d'arguments on les traites
-            while (analyseurLexical.next().getType() != "tok_closing_parenthesis" && analyseurLexical.next().getType() != "tok_end_of_file"){
+            while (analyseurLexical.next().getType() != "tok_closing_parenthesis" || analyseurLexical.next().getType() != "tok_end_of_file"){
 
                 Node arg = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
@@ -435,7 +468,7 @@ public class AnalyseurSyntaxique {
                 block.addNodeChild(arg);
             }
 
-            if(!analyseurLexical.accept("tok_closing_parenthesis")){
+            if(!analyseurLexical.accept("tok_openning_parenthesis")){
                 System.out.println("Il manque une parenthèse fermente ')'\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;
             }
@@ -449,7 +482,6 @@ public class AnalyseurSyntaxique {
             System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
             System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
             this.error = true;
-			analyseurLexical.skip();
         }
         //Si on accepte
         /*else {
