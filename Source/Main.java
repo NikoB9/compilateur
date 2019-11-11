@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 import object.primary.AnalyseurLexical;
 import object.primary.AnalyseurSyntaxique;
@@ -14,9 +15,15 @@ public class Main {
 
 	    boolean debugMode = false;
 
-	    if (args.length == 2){
-	        debugMode = Boolean.parseBoolean(args[1]);
-        }
+
+	    String fileName = "";
+	    ArrayList<String> libraries = new ArrayList<String>();
+	    //traitement des parametres
+	    for(int a = 0; a < args.length; a++){
+			if (args[a] == "-l") libraries.add(args[a+1]);
+	    	if (args[a] == "-f") fileName = args[a+1];
+			if (args[a] == "-d") debugMode=true;
+		}
 
 		Scanner in = new Scanner(System.in);
 
@@ -25,17 +32,42 @@ public class Main {
             System.out.print(System.getProperty("line.separator"));
         }
 
-        String fileName;
-		if(args.length == 0){
+		if(fileName == ""){
 		    System.out.print("Entrez le nom de fichier avec l'extension .txt : ");
 		    fileName = in.nextLine();
         }
-		else{
-		    fileName = args[0];
-        }
-
 
 		String basePath = new File("").getAbsolutePath();
+
+
+
+		//LIBRAIRIES
+		//ON PAR DU PRINCIPE QUE LES LIBRAIRIES SONT IMPLEMENTEES PAR NOUS ET NE COMPORTENT DONC PAS D'ERREUR
+		String flow="";
+		for (int f = 0; f<libraries.size(); f++){
+
+			File lib = new File(basePath+"\\"+libraries.get(f));
+			AnalyseurLexical alLib = new AnalyseurLexical(lib);
+			AnalyseurSyntaxique asLib = new AnalyseurSyntaxique(alLib);
+
+			while(true){
+				Node principalNodeLib = asLib.Function();
+				AnalyseurSemantique.nodeAnalyse(principalNodeLib);
+
+				flow += CodeGenerator.genCode(principalNodeLib);
+				AnalyseurSemantique.setNbVariables(3);
+
+
+				if (alLib.accept("tok_end_of_file")) {
+					return ;
+				}
+				asLib.setError(false);
+			}
+
+		}
+
+
+		//FICHIER CODE à COMPILER
 		File file = new File(basePath+"\\"+fileName);
 
         if (debugMode){
@@ -57,13 +89,15 @@ public class Main {
 		int tree = 1;
 		int nbTreeErr = 0;
         int nbTreeOk = 0;
-        String flow="";
+
+        /*****Debut de programme : ouverture de bloc*******/
         AnalyseurSemantique.openBlock();
+
         while(true){
 
 			//System.out.println("\n\nArbre : "+tree+"\n\n");
 
-			Node principalNode = analyseurSyntaxique.Instruction();
+			Node principalNode = analyseurSyntaxique.Function();
             AnalyseurSemantique.nodeAnalyse(principalNode);
 
 			if (debugMode) Node.print(principalNode, 1);
@@ -73,6 +107,7 @@ public class Main {
                     nbTreeOk ++;
 
 					flow += CodeGenerator.genCode(principalNode);
+                    AnalyseurSemantique.setNbVariables(3);
 			}
 			else {
 			    nbTreeErr ++;
@@ -89,9 +124,11 @@ public class Main {
 					flow = "\n\nL'analyseur à rencontré des erreurs. Le code compilé ne sera pas généré ! \n\n";
 				}
 				else {
-					if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
-					flow = "\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
-					flow += "halt\n";
+					//if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
+                    if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n"+flow;
+					//flow = "\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
+					//flow += "halt\n";
+                    else flow += ".start\nprep Main\ncall 0\nhalt\n";
 				}
 				System.out.println(flow);
 				return ;
