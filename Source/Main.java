@@ -20,9 +20,9 @@ public class Main {
 	    ArrayList<String> libraries = new ArrayList<String>();
 	    //traitement des parametres
 	    for(int a = 0; a < args.length; a++){
-			if (args[a] == "-l") libraries.add(args[a+1]);
-	    	if (args[a] == "-f") fileName = args[a+1];
-			if (args[a] == "-d") debugMode=true;
+			if (args[a].equals("-l")) libraries.add(args[a+1]);
+            if (args[a].equals("-f")) fileName = args[a+1];
+            if (args[a].equals("-d"))  debugMode = true;
 		}
 
 		Scanner in = new Scanner(System.in);

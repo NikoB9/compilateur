@@ -62,19 +62,8 @@ public class AnalyseurSyntaxique {
 			return node;
 		}
         else if(analyseurLexical.next().getType() == "tok_declaration"){
-
-            Node node = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
-            analyseurLexical.skip();
-            if(analyseurLexical.next().getType() == "tok_identifier"){
-                node.addNodeChild(new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
-                analyseurLexical.skip();
-            }else{
-                System.out.println("Il manque un identifiant de variable  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
-                this.error = true;
-            }
-
-            return node;
-
+            System.out.println("La déclaration de variable doit se faire en dehors de toute expression et de boucles.\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+            this.error = true;
         }
         //Renvoi un arbre variable ou fonction si on a un token identifier
 		if (analyseurLexical.next().getType() == "tok_identifier"){
@@ -449,7 +438,7 @@ public class AnalyseurSyntaxique {
             }
 
             //Tant qu'il y a des déclarations d'arguments on les traites
-			while (analyseurLexical.next().getType() != "tok_closing_parenthesis" && analyseurLexical.next().getType() != "tok_end_of_file"){
+            while (analyseurLexical.next().getType() != "tok_closing_parenthesis" && analyseurLexical.next().getType() != "tok_end_of_file"){
 
 				Node arg = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
