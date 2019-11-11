@@ -19,6 +19,7 @@ public class AnalyseurSemantique {
     public static int getNbVariables() {
         return nbVariables;
     }
+    public static void setNbVariables(int nbv){ nbVariables = nbv; }
 
     public static boolean isError() {
         return error;
@@ -101,14 +102,28 @@ public class AnalyseurSemantique {
             case "node_function":
                 s = declare(n, "function");
                 s.setType("function");
+                //-1 car on reserve seulement le nombre d'arguments et non l'instruction qui est à la fin
+                int nbArgs = n.getChild(0).nbChild()-1;
+                s.setNbParameters(nbArgs);
+                for (Node child : n.getChildList()) {
+                    nodeAnalyse(child);
+                }
                 break;
             case "node_call_function":
                 s = search(n);
+
                 if (s.getType() != "function") {
                     System.out.println("Erreur, la fonction \"" + n.getName() + "\" n'a pas encore été déclarée !");
                     System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
                     error = true;
                 }
+
+                if (s.getNbParameters() != n.nbChild()){
+                    System.out.println("Erreur, le nombre d'arguments passés à la fonction \"" + n.getName() + "\" est incorrect.");
+                    System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
+                    error = true;
+                }
+
                 n.setSlot(s.getSlot());
                 break;
             default:

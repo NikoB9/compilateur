@@ -7,6 +7,7 @@ public class Symbol {
 	private int slot;
     private int line = 0;
     private int column = 0;
+    private int nbParameters = 0;
 
 	public Symbol(String type, int slot, int line, int column) {
 		this.type = type;
@@ -36,7 +37,15 @@ public class Symbol {
     public void setLine(int line){ this.line = line; }
     public void setColumn(int column){ this.column = column; }
 
-	public String getType() {
+    public int getNbParameters() {
+        return nbParameters;
+    }
+
+    public void setNbParameters(int nbParameters) {
+        this.nbParameters = nbParameters;
+    }
+
+    public String getType() {
 		return type;
 	}
 
