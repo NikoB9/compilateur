@@ -449,9 +449,9 @@ public class AnalyseurSyntaxique {
             }
 
             //Tant qu'il y a des déclarations d'arguments on les traites
-            while (analyseurLexical.next().getType() != "tok_closing_parenthesis" || analyseurLexical.next().getType() != "tok_end_of_file"){
+			while (analyseurLexical.next().getType() != "tok_closing_parenthesis" && analyseurLexical.next().getType() != "tok_end_of_file"){
 
-                Node arg = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+				Node arg = new Node("node_declaration", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
                 if(analyseurLexical.next().getType() == "tok_identifier"){
                     arg.addNodeChild(new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
@@ -468,8 +468,8 @@ public class AnalyseurSyntaxique {
                 block.addNodeChild(arg);
             }
 
-            if(!analyseurLexical.accept("tok_openning_parenthesis")){
-                System.out.println("Il manque une parenthèse fermente ')'\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+			if(!analyseurLexical.accept("tok_closing_parenthesis")){
+				System.out.println("Il manque une parenthèse fermente ')'\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;
             }
 
@@ -482,7 +482,8 @@ public class AnalyseurSyntaxique {
             System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
             System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");
             this.error = true;
-        }
+			analyseurLexical.skip();
+		}
         //Si on accepte
         /*else {
             fct = Instruction();
