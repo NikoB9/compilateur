@@ -242,7 +242,7 @@ public class CodeGenerator {
             generatedCode += "." + n.getName() + "\n";
             //-1 car on reserve seulement le nombre d'arguments et non l'instruction qui est à la fin
             int nbArgs = n.getChild(0).nbChild()-1;
-            generatedCode += "resn" + (AnalyseurSemantique.getNbVariables() - nbArgs) + "\n";
+            generatedCode += "resn " + (AnalyseurSemantique.getNbVariables() - nbArgs) + "\n";
             //on génère le code de l'instruction
             generatedCode += genCode(n.getChild(0).getChild(nbArgs));
 

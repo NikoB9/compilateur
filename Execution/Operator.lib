@@ -1,0 +1,11 @@
+function Power(a,b){
+	var res = 1;
+	var i = 0;
+	var value = b;
+	if(b<0) value = -b;
+	for(i=0; i<value; i=i+1){
+	    if(b>=0){ res = res*a;}
+	    else{ res = res/a;}
+	}
+	return res;
+}
