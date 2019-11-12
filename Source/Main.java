@@ -64,7 +64,8 @@ public class Main {
 				AnalyseurSemantique.nodeAnalyse(principalNodeLib);
 
 				flow += CodeGenerator.genCode(principalNodeLib);
-				AnalyseurSemantique.setNbVariables(3);
+				//AnalyseurSemantique.setNbVariables(3);//"Servait pour l'operateur power"
+				AnalyseurSemantique.setNbVariables(0);
 
 
 				if (alLib.accept("tok_end_of_file")) {
@@ -113,7 +114,8 @@ public class Main {
                     nbTreeOk ++;
 
 					flow += CodeGenerator.genCode(principalNode);
-                    AnalyseurSemantique.setNbVariables(3);
+                    //AnalyseurSemantique.setNbVariables(3);//"Servait pour l'operateur power"
+					AnalyseurSemantique.setNbVariables(0);
 			}
 			else {
 			    nbTreeErr ++;
@@ -134,7 +136,7 @@ public class Main {
                     if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n"+flow;
 					//flow = "\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
 					//flow += "halt\n";
-                    else flow += ".start\nprep Main\ncall 0\nhalt\n";
+                    else flow += ".start\nprep main\ncall 0\nhalt\n";
 				}
 				System.out.println(flow);
 				return ;

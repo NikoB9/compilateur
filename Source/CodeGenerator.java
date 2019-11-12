@@ -106,6 +106,9 @@ public class CodeGenerator {
             generatedCode += "not" + "\n";
         }
         else if (n.getType() == "node_power"){
+            System.out.println("Veuillez utiliser la fonction Power(a, b) de la bibliothèque Operator.lib tel que a^b");
+        }
+        /*else if (n.getType() == "node_power"){
             //Init de l'accumulateur
             // res =1;
             generatedCode += "push 1\n";
@@ -169,7 +172,7 @@ public class CodeGenerator {
             generatedCode += "jump l" + (flagCount-4) + "\n";
             generatedCode += ".l" + (flagCount-3) + "\n";
             generatedCode += "get 0\n";
-        }
+        }*/
         else if (functionsMSM.containsKey(n.getType())){
             generatedCode += genCode(n.getChild(0));
             generatedCode += genCode(n.getChild(1));
@@ -256,7 +259,7 @@ public class CodeGenerator {
             }
             generatedCode += "call " + n.nbChild()+ "\n";
         }
-        else if(n.getType() == "return"){
+        else if(n.getType() == "node_return"){
             generatedCode += genCode(n.getChild(0));
             generatedCode += "ret " + "\n";
         }

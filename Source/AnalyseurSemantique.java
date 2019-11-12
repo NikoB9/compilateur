@@ -8,7 +8,8 @@ import object.secondary.Symbol;
 
 public class AnalyseurSemantique {
 
-    private static int nbVariables = 3;
+    //private static int nbVariables = 3; //"Servait pour l'operateur power"
+    private static int nbVariables = 0;
     private static boolean error = false;
 
     private static Stack<HashMap<String, Symbol>> stack = new Stack<HashMap<String, Symbol>>();
@@ -41,7 +42,7 @@ public class AnalyseurSemantique {
         HashMap<String, Symbol> block = new HashMap<String, Symbol>();
         if(!stack.empty()) block = stack.peek();
         if (block.containsKey(name)) {
-            System.out.println("Erreur la "+type+" \"" + name + "\" est déjà déclaré dans ce bloc en tant que variable ou fonction !");
+            System.out.println("Erreur la "+type+" \"" + name + "\" est déjà déclaré dans ce bloc !");
             System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
             error = true;
         } else {
@@ -50,15 +51,15 @@ public class AnalyseurSemantique {
         return s;
     }
 
-    public static Symbol search(Node n) {
-        Symbol symbole = new Symbol();
+    public static Symbol search(Node n, String type) {
+        Symbol symbole = new Symbol(n.getLine(), n.getColumn());
         Stack<HashMap<String, Symbol>> s = new Stack<HashMap<String, Symbol>>();
         String idSymbol = n.getName();
 
         while (!stack.empty()) {
             s.push(stack.pop());
             HashMap<String, Symbol> block = s.peek();
-            if (block.containsKey(idSymbol)) {
+            if (block.containsKey(idSymbol) && block.get(idSymbol).getType() == type) {
                 //réempiler la pile
                 while (!s.empty()) {
                     stack.push(s.pop());
@@ -92,7 +93,7 @@ public class AnalyseurSemantique {
                 nbVariables++;
                 break;
             case "node_var":
-                s = search(n);
+                s = search(n, "variable");
                 if (s.getType() != "variable") {
                     System.out.println("Erreur, la variable \"" + n.getName() + "\" n'a pas encore été déclarée !");
                     System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");
@@ -111,7 +112,7 @@ public class AnalyseurSemantique {
                 }
                 break;
             case "node_call_function":
-                s = search(n);
+                s = search(n, "function");
                 if (s.getType() != "function") {
                     System.out.println("Erreur, la fonction \"" + n.getName() + "\" n'a pas encore été déclarée !");
                     System.out.println("( Ligne " + n.getLine() + ", Colonne " + n.getColumn() + " )\n");

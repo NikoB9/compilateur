@@ -137,9 +137,12 @@ public class AnalyseurSyntaxique {
 	}
 
 	public Operator ChercherOp(Token token) {
-		if (analyseurLexical.next().getType()=="tok_unknown") {
+		if (analyseurLexical.next().getType()=="tok_unknown" || analyseurLexical.next().getType()=="tok_power") {
 			System.out.println("Erreur : opérateur non accepté. \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
-			this.error = true;
+			if (analyseurLexical.next().getType()=="tok_power")
+                System.out.println("Veuillez utiliser la fonction Power(a, b) de la bibliothèque Operator.lib tel que a^b");
+
+            this.error = true;
 			return null;
 		}
 

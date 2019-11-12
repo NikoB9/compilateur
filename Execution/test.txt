@@ -1,4 +1,4 @@
-function Main(){
+function main(){
     var vari=3+4;
     var varia=4;
     var variab=4;
@@ -44,10 +44,10 @@ function Main(){
         a=a+5;
         debug a;
     }
-    debug 2^8;
+    /*debug 2^8;
     debug 2^0;
     debug 2^-(5-3);
-    debug 9^2;
+    debug 9^2;*/
 
     var r=4;
 
@@ -58,6 +58,12 @@ function Main(){
     }
     while( r!=0)
 
+    //var i;
+    //var r;
+
+    var Power = 42;
+    debug Power;
+
     for(i=0; i<15;i=i+1){
         if(i==2) continue;
         if(i==3){
@@ -66,7 +72,8 @@ function Main(){
             }
         }
         debug i;
-        if(i==4) debug Power(2,6);
+        if(i==4) debug Power(2*2,6);
         if(i==5) break;
     }
+    debug Power(2,4)+1;
 }
