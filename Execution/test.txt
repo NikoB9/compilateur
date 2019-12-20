@@ -84,4 +84,12 @@ function main(){
     print(Power(2,4)+1);
     print(factorial(10));
     print(!factorial(-50));
+
+    var testPointer = 5;
+    print(*testPointer);
+    print(*varia);
+    *testPointer = varia;
+    print(varia);
+    print(*testPointer);
+    print(testPointer);
 }

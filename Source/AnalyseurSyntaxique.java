@@ -127,11 +127,6 @@ public class AnalyseurSyntaxique {
             analyseurLexical.skip();
 
             Node Nexp = Expression(0);
-            if (!analyseurLexical.accept("tok_separator")){
-                System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
-                analyseurLexical.skip();
-                this.error = true;
-            }
 
             Node N = new Node("node_pointer", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
             N.addNodeChild(Nexp);

@@ -217,9 +217,18 @@ public class CodeGenerator {
             generatedCode += "get " + n.getSlot() + "\n";
         }
         else if(n.getType() == "node_assignment"){
-            generatedCode += genCode(n.getChild(1));
-            generatedCode += "dup" + "\n";
-            generatedCode += "set " + n.getChild(0).getSlot() + "\n";
+            if (n.getChild(0).getType() == "node_pointer"){
+                generatedCode += genCode(n.getChild(0).getChild(0));
+                generatedCode += "dup" + "\n";
+                generatedCode += genCode(n.getChild(1));
+                generatedCode += "write" + "\n";
+                generatedCode += "read" + "\n";
+            }
+            else {
+                generatedCode += genCode(n.getChild(1));
+                generatedCode += "dup" + "\n";
+                generatedCode += "set " + n.getChild(0).getSlot() + "\n";
+            }
         }
         else if(n.getType() == "node_loop"){
             //On ajoute dans la pile un Hashmap contenant les flags qui seront utilisés
@@ -285,6 +294,7 @@ public class CodeGenerator {
         else if (n.getType() == "node_pointer"){
             generatedCode += genCode(n.getChild(0));
             generatedCode += "read\n";
+            generatedCode += "dbg\n";
         }
 
         return generatedCode;
