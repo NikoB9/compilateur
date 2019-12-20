@@ -1,8 +1,9 @@
-
 function factorial(a){
     var i = 1;
     var res = 1;
-    if(a<0) return 0;
+    if(a<0) {
+    return 0;
+    }
     for(i=2; i<=a; i=i+1){ res = res * i; }
     return res ;
 }
@@ -11,80 +12,76 @@ function main(){
     var vari=3+4;
     var varia=4;
     var variab=4;
-    debug 5;
-    debug 4+3*4-5;
-    debug vari;
-    debug 21+321*2+3*3+1*43;
-    debug varia;
-    debug 4+-5;
-    debug variab;
+    print(5);
+    print(4+3*4-5);
+    print(vari);
+    print(21+321*2+3*3+1*43);
+    print(varia);
+    print(4+-25);
+    print(variab);
 
-    debug varia;
+    print(varia);
 
 
-    debug vari;
+    print(vari);
 
     var a=10;
     if
     (a==10)
     {
         var b=a+5*3;
-        debug b;
+        print(b);
     }
     else
     {
-        debug 0;
+        print(0);
     }
 
-    debug 0;
+    print(0);
 
     while
     (a>5)
     {
-    debug a;
+    print(a);
     a=a-1;
     }
-    debug -1;
+    print(-1);
 
     var i;
     for
     (i=0; i<5; i=i+1)
     {
         a=a+5;
-        debug a;
+        print(a);
     }
-    /*debug 2^8;
-    debug 2^0;
-    debug 2^-(5-3);
-    debug 9^2;*/
 
     var r=4;
 
     do
     {
-    debug r;
+    print(r);
     r=r-1;
     }
-    while( r!=0)
+    while(r!=0)
 
     //var i;
     //var r;
 
     var Power = 42;
-    debug Power;
+    print(Power);
 
     for(i=0; i<15;i=i+1){
         if(i==2) continue;
         if(i==3){
             for(r=1;r<4; r=r+1){
-                debug r*(-1);
+                print(r*(-1));
             }
         }
-        debug i;
-        if(i==4) debug Power(2*2,6);
+        print(i);
+        if(i==4) print( Power(2*2,6));
         if(i==5) break;
     }
-    debug Power(2,4)+1;
+    print(Power(2,4)+1);
     print(factorial(10));
-    debug factorial(-50);
+    print(!factorial(-50));
 }

@@ -139,7 +139,8 @@ public class Node {
 		else if(type == "node_identifier") {
 			ts += " => Nom de variable : " + name;
 		}
-		
-		return ts;
+		else if (type == "node_var") ts += " => Slot : " + slot + " => Nom de variable : " + name;
+
+        return ts;
 	}
 }

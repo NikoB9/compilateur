@@ -282,6 +282,10 @@ public class CodeGenerator {
             generatedCode += genCode(n.getChild(0));
             generatedCode += "send\n";
         }
+        else if (n.getType() == "node_pointer"){
+            generatedCode += genCode(n.getChild(0));
+            generatedCode += "read\n";
+        }
 
         return generatedCode;
     }

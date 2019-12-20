@@ -123,6 +123,21 @@ public class AnalyseurSyntaxique {
 			node.addNodeChild(this.Expression(7));
 			return node;
 		}
+        if(analyseurLexical.next().getType() == "tok_multiply"){
+            analyseurLexical.skip();
+
+            Node Nexp = Expression(0);
+            if (!analyseurLexical.accept("tok_separator")){
+                System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                analyseurLexical.skip();
+                this.error = true;
+            }
+
+            Node N = new Node("node_pointer", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            N.addNodeChild(Nexp);
+
+            return N;
+        }
 		if (analyseurLexical.next().getType()=="tok_unknown") {
 			System.out.println("Erreur : caractère non accepté. \n ( Ligne "+ analyseurLexical.next().getLine() + " ; Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 			this.error = true;
@@ -409,11 +424,8 @@ public class AnalyseurSyntaxique {
                 this.error = true;
             }
 
-            Node NexpPadre = new Node("node_expression", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
-            NexpPadre.addNodeChild(Nexp);
-
             N = new Node("node_send", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
-            N.addNodeChild(NexpPadre);
+            N.addNodeChild(Nexp);
         }
 		/*****expressions******/
 	    else {

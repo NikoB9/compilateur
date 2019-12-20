@@ -23,6 +23,11 @@ function printx(a)
 {
     if(a != 0)
     {
+        if(a<0){
+            a=a*-1;
+            //code ascii 45 : "-"
+            send 45;
+        }
         printx(a/10);
         //+48 car le code ascii de 0 est 48
         send (a%10)+48;
