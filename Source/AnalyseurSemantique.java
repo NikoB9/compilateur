@@ -126,6 +126,10 @@ public class AnalyseurSemantique {
                     error = true;
                 }
                 n.setSlot(s.getSlot());
+
+                for (Node child : n.getChildList()) {
+                    nodeAnalyse(child);
+                }
                 break;
             default:
                 for (Node child : n.getChildList()) {
