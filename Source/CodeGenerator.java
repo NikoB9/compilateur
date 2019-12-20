@@ -294,7 +294,7 @@ public class CodeGenerator {
         else if (n.getType() == "node_pointer"){
             generatedCode += genCode(n.getChild(0));
             generatedCode += "read\n";
-            generatedCode += "dbg\n";
+            //generatedCode += "dup\n";
         }
 
         return generatedCode;
