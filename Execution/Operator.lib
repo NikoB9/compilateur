@@ -16,24 +16,30 @@ function Power(a,b){
 }
 
 /*
-*
+* Permet de décomposer un message à envoyer au terminal
+* il faut ajouter 48 au chiffre décomposé pour obtenir son code ascii
 */
 function printx(a)
 {
     if(a != 0)
     {
         printx(a/10);
-        send a%10;
+        //+48 car le code ascii de 0 est 48
+        send (a%10)+48;
     }
 }
 
 /*
 * Permet de réaliser des affichages dans le programme
+* On se sert de la fonction printx pour décomposer le message
+* le but étant d'envoyer les caractères un a un.
 */
 function print(a)
 {
-    //Si a vaut zero cela correspond au code ascii 40
-    if(a==0) send 40;
+    //Si a vaut zero cela correspond au code ascii 48
+    if(a==0) send 48;
+    //Sinon on appel printx pour décomposer le nombre
     else printx(a);
+    //on saute une ligne après écriture
     send 10;
 }

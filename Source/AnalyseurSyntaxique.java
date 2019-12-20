@@ -399,6 +399,22 @@ public class AnalyseurSyntaxique {
 			}
 			N = new Node("node_break", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 		}
+        else if(analyseurLexical.next().getType() == "tok_send"){
+            analyseurLexical.skip();
+
+            Node Nexp = Expression(0);
+            if (!analyseurLexical.accept("tok_separator")){
+                System.out.println("Il manque un séparteur ';'  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+                analyseurLexical.skip();
+                this.error = true;
+            }
+
+            Node NexpPadre = new Node("node_expression", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            NexpPadre.addNodeChild(Nexp);
+
+            N = new Node("node_send", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+            N.addNodeChild(NexpPadre);
+        }
 		/*****expressions******/
 	    else {
 

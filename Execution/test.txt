@@ -1,3 +1,4 @@
+
 function factorial(a){
     var i = 1;
     var res = 1;
@@ -84,4 +85,6 @@ function main(){
         if(i==5) break;
     }
     debug Power(2,4)+1;
+    print(factorial(10));
+    debug factorial(-50);
 }

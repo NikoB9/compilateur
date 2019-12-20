@@ -278,6 +278,11 @@ public class CodeGenerator {
             ArrayList<Integer> flags = searchFlags("loop");
             generatedCode += "jump l"+ flags.get(0) + "\n";
         }
+        else if(n.getType() == "node_send"){
+            generatedCode += genCode(n.getChild(0));
+            generatedCode += "send\n";
+        }
+
         return generatedCode;
     }
     

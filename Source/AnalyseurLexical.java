@@ -55,6 +55,7 @@ public class AnalyseurLexical {
 		keywords.put("return", "tok_return");
 		keywords.put("continue", "tok_continue");
 		keywords.put("break", "tok_break");
+        keywords.put("send", "tok_send");
 	}
 
 	public void skip() {
