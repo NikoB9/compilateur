@@ -57,6 +57,8 @@ Les conditionnelles sont fonctionnels ainsi que l'affectation de variables et bo
 Boucles prise en charge : while; for; do-while
 Analyseur sémantique : permet de gérer et vérifier la déclaration des variables
 Générateur de code : Gènère le code adapté à msm
+Librairies standards acceptées/ import lors de la compilation
+Fonctions prises en charge
 ======================================================
 
 ---INFOS IMPORTANTES---
@@ -66,12 +68,12 @@ Générateur de code : Gènère le code adapté à msm
 -Il faut utiliser le mot clé "var" pour déclarer une variable
 -Les variables doivent être déclarées avant leur utilisation en temps que paramètre (exemple pour la boucle for)
 -Dans la gestion d'erreurs les lignes sont comptées sans prendre en compte les lignes vident 
+-le code principal doit être contenu dans la fonction "function main(){...code...}"
 ======================================================
 
 ---NON FAIT---
 
 ======================================================
-fonctions
 variables string
 Nombre de type flottant (implique qu'un exposant négatif pour un calcul de puissance donnera 0)
 tableaux

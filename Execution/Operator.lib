@@ -1,3 +1,7 @@
+/*
+* entrée : a, b deux entiers
+* sortie : a^b
+*/
 function Power(a,b){
 	var res = 1;
 	var i = 0;
@@ -9,4 +13,27 @@ function Power(a,b){
 	    else{ res = res/a;}
 	}
 	return res;
+}
+
+/*
+*
+*/
+function printx(a)
+{
+    if(a != 0)
+    {
+        printx(a/10);
+        send a%10;
+    }
+}
+
+/*
+* Permet de réaliser des affichages dans le programme
+*/
+function print(a)
+{
+    //Si a vaut zero cela correspond au code ascii 40
+    if(a==0) send 40;
+    else printx(a);
+    send 10;
 }
