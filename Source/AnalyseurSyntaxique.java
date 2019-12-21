@@ -108,7 +108,29 @@ public class AnalyseurSyntaxique {
 					return pointer;
 
 			}
-			
+			if (analyseurLexical.accept("tok_increment")){
+				Node incr = new Node("node_assignment", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+				Node plus = new Node("node_plus_binary", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+				plus.addNodeChild(n);
+				plus.addNodeChild(new Node("node_constant", 1, analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
+
+				incr.addNodeChild(n);
+				incr.addNodeChild(plus);
+				return incr;
+			}
+			if (analyseurLexical.accept("tok_decrement")){
+				Node decr = new Node("node_assignment", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+				Node moins = new Node("node_minus_binary", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+				moins.addNodeChild(n);
+				moins.addNodeChild(new Node("node_constant", 1, analyseurLexical.next().getLine(), analyseurLexical.next().getColumn()));
+
+				decr.addNodeChild(n);
+				decr.addNodeChild(moins);
+				return decr;
+			}
+
 			return n;
 		}
 		//Renvoi un arbre contenant l'ensemble des calculs mathematiques, expression boolean

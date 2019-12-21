@@ -37,13 +37,31 @@ OU pour générer directement le fichier du code compilé pour msm
 1- cd ../Execution & java Main -f Nom_fichier_de_code_à_lire -l standard.lib > Exec
 ======================================================
 
---- Librairie : Operator.lib ---
+--- Librairie : standard.lib ---
 
 ======================================================
 ------------------------------------------------------
 Power(a, b);
 ->Prend en paramètres un nombre a et un nombre b
 ->la fonction retourne la partie entière de a exposant b
+------------------------------------------------------
+printx(a);
+->seulement appelé par la fonction print utilisé par le développeur
+->Prend en paramètres un nombre a
+->la fonction écrit le nombre dans le terminal
+------------------------------------------------------
+print(a);
+->Prend en paramètres un nombre a
+->la fonction écrit le nombre dans le terminal grâce à printx(a)
+------------------------------------------------------
+alloc(n);
+->Prend en paramètres un nombre n
+->la fonction alloue n bits d'espace pour un tableau
+->elle est aussi utilisé dans la fonction init qui appel le Main afin d'allouer de la mémoire au programme
+------------------------------------------------------
+factorial(a);
+->Prend en paramètres un nombre a positif
+->la fonction retourne !a
 ------------------------------------------------------
 ======================================================
 
@@ -60,6 +78,7 @@ Générateur de code : Gènère le code adapté à msm
 Librairies standards acceptées/ import lors de la compilation
 Fonctions prises en charge
 Pointeurs pris en charge
+post incrément et post décrément
 ======================================================
 
 ---INFOS IMPORTANTES---
@@ -70,6 +89,11 @@ Pointeurs pris en charge
 -Les variables doivent être déclarées avant leur utilisation en temps que paramètre (exemple pour la boucle for)
 -Dans la gestion d'erreurs les lignes sont comptées sans prendre en compte les lignes vident 
 -le code principal doit être contenu dans la fonction "function main(){...code...}"
+-la fonction init doit être instancié en dessous du main :
+function init(){
+    alloc(70000);
+    main();
+}
 ======================================================
 
 ---NON FAIT---
@@ -77,4 +101,3 @@ Pointeurs pris en charge
 ======================================================
 prise en charge des chaînes de caractères
 Nombre de type flottant (implique qu'un exposant négatif pour un calcul de puissance donnera 0)
-tableaux

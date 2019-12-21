@@ -1,13 +1,3 @@
-function factorial(a){
-    var i = 1;
-    var res = 1;
-    if(a<0) {
-    return 0;
-    }
-    for(i=2; i<=a; i=i+1){ res = res * i; }
-    return res ;
-}
-
 function main(){
     var vari=3+4;
     var varia=4;
@@ -43,13 +33,13 @@ function main(){
     (a>5)
     {
     print(a);
-    a=a-1;
+    a--;
     }
     print(-1);
 
     var i;
     for
-    (i=0; i<5; i=i+1)
+    (i=0; i<5; i++)
     {
         a=a+5;
         print(a);
@@ -60,7 +50,7 @@ function main(){
     do
     {
     print(r);
-    r=r-1;
+    r--;
     }
     while(r!=0)
 
@@ -70,10 +60,10 @@ function main(){
     var Power = 42;
     print(Power);
 
-    for(i=0; i<15;i=i+1){
+    for(i=0; i<15;i++){
         if(i==2) continue;
         if(i==3){
-            for(r=1;r<4; r=r+1){
+            for(r=1;r<4; r++){
                 print(r*(-1));
             }
         }
@@ -101,15 +91,19 @@ function main(){
 
     var t = alloc(10);
 
-    for(i=0; i<10; i=i+1){
+    for(i=0; i<10; i++){
         t[i] = 10-i;
     }
-    for(i=0; i<10; i=i+1){
+    for(i=0; i<10; i++){
         print(t[i]);
     }
 
-    print(*(b-1));
-    print(*(b+1));
+    var testIncr = *(b-1);
+    var testDecr = *(b+1);
+    print(testIncr++);
+    print(testDecr--);
+
+
 }
 
 function init(){

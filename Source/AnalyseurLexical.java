@@ -187,14 +187,14 @@ public class AnalyseurLexical {
 						columnIndex++;
 					}
 					//Si �a commence par "+"
-					if(columnIndex+1 < line.length() && asciiChar == 43 && line.codePointAt(columnIndex+1) == 43) {
+					else if(columnIndex+1 < line.length() && asciiChar == 43 && line.codePointAt(columnIndex+1) == 43) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 						columnIndex++;
 					}
 					//Si �a commence par "-"
-					if(columnIndex+1 < line.length() && asciiChar == 45 && line.codePointAt(columnIndex+1) == 45) {
+					else if(columnIndex+1 < line.length() && asciiChar == 45 && line.codePointAt(columnIndex+1) == 45) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
