@@ -1,4 +1,4 @@
-/*function factorial(a){
+function factorial(a){
     var i = 1;
     var res = 1;
     if(a<0) {
@@ -6,10 +6,10 @@
     }
     for(i=2; i<=a; i=i+1){ res = res * i; }
     return res ;
-}*/
+}
 
 function main(){
-    /*var vari=3+4;
+    var vari=3+4;
     var varia=4;
     var variab=4;
     print(5);
@@ -85,39 +85,34 @@ function main(){
     print(factorial(10));
     print(!factorial(-50));
 
-    var testPointer = 5;
+    var testPointer = 3;
     print(*testPointer);
-    print(*varia);
-    *testPointer = varia;
-    print(varia);
+    print(*vari);
+    *testPointer = vari;
+    print(vari);
     print(*testPointer);
-    print(testPointer);*/
+    print(testPointer);
+
     var b = 4;
     *b;
-    (*b) = 3;
-    var a = *b;
-    print(a);
+    *(b+1) = 3;
+    print(*(b-1));
+    print(*(b+1));
+
+    var t = alloc(10);
+
+    for(i=0; i<10; i=i+1){
+        t[i] = 10-i;
+    }
+    for(i=0; i<10; i=i+1){
+        print(t[i]);
+    }
+
+    print(*(b-1));
+    print(*(b+1));
 }
-/*
-push 10
-	read
-	dbg
 
-	push 10
-	dup
-	push 3
-	write
-	read
-	dbg
-
-	push 3
-	read
-	dbg
-
-	push 10
-	dup
-	push 3
-	read
-	write
-	read
-	dbg */
+function init(){
+    alloc(Power(42, 3)-9000);
+    main();
+}

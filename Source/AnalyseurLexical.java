@@ -25,6 +25,8 @@ public class AnalyseurLexical {
 		character.put(">=","tok_sup_equal");
 		character.put("<=","tok_inf_equal");
 		character.put("!=","tok_different");
+		character.put("++","tok_increment");
+		character.put("--","tok_decrement");
 		character.put("+","tok_plus");
 		character.put("-","tok_minus");
 		character.put("/","tok_divide");
@@ -33,10 +35,12 @@ public class AnalyseurLexical {
 		character.put("^","tok_power");
 		character.put("<","tok_inf");
 		character.put(">","tok_sup");
-		character.put("(","tok_openning_parenthesis");
+		character.put("(","tok_opening_parenthesis");
 		character.put(")","tok_closing_parenthesis");
 		character.put("{","tok_open_brace");
 		character.put("}","tok_close_brace");
+        character.put("[","tok_opening_bracket");
+        character.put("]","tok_closing_bracket");
 		character.put("&","tok_and");
 		character.put("|","tok_or");
 		character.put("=","tok_assignment");
@@ -177,6 +181,20 @@ public class AnalyseurLexical {
 
 					//Si �a commence par "="
 					if(columnIndex+1 < line.length() && asciiChar == 61 && line.codePointAt(columnIndex+1) == 61) {
+						//On r�cup�re le texte
+						String name = line.substring(columnIndex, columnIndex+2);
+						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
+						columnIndex++;
+					}
+					//Si �a commence par "+"
+					if(columnIndex+1 < line.length() && asciiChar == 43 && line.codePointAt(columnIndex+1) == 43) {
+						//On r�cup�re le texte
+						String name = line.substring(columnIndex, columnIndex+2);
+						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
+						columnIndex++;
+					}
+					//Si �a commence par "-"
+					if(columnIndex+1 < line.length() && asciiChar == 45 && line.codePointAt(columnIndex+1) == 45) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));

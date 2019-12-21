@@ -15,6 +15,7 @@ function Power(a,b){
 	return res;
 }
 
+
 /*
 * Permet de décomposer un message à envoyer au terminal
 * il faut ajouter 48 au chiffre décomposé pour obtenir son code ascii
@@ -47,4 +48,15 @@ function print(a)
     else printx(a);
     //on saute une ligne après écriture
     send 10;
+}
+
+/*
+* Alloue de la mémoire pour les tableaux
+*/
+function alloc(n){
+    //récupération de la première case mémoire dispo
+    var tab = *0;
+    //Définition de la mémoire allouée
+    *0 = tab + n;
+    return tab;
 }

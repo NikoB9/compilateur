@@ -136,7 +136,7 @@ public class Main {
                     if (debugMode) flow = "\n\n_________________________Code_généré_avec_succès_:_____________________________\n\n"+flow;
 					//flow = "\n\n.start\nresn "+AnalyseurSemantique.getNbVariables()+"\n"+flow;
 					//flow += "halt\n";
-                    else flow += ".start\nprep main\ncall 0\nhalt\n";
+                    else flow += ".start\nprep init\ncall 0\nhalt\n";
 				}
 				System.out.println(flow);
 				return ;

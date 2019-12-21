@@ -69,7 +69,7 @@ public class AnalyseurSyntaxique {
 		if (analyseurLexical.next().getType() == "tok_identifier"){
 			Node n = new Node("node_var", analyseurLexical.next().getName(), analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 			analyseurLexical.skip();
-            if (analyseurLexical.accept("tok_openning_parenthesis")){
+            if (analyseurLexical.accept("tok_opening_parenthesis")){
                 n.setType("node_call_function");
                 //Tant qu'il y a des arguments on les traites
                 while (analyseurLexical.next().getType() != "tok_closing_parenthesis" && analyseurLexical.next().getType() != "tok_end_of_file"){
@@ -88,10 +88,31 @@ public class AnalyseurSyntaxique {
                     this.error = true;
                 }
             }
+			if (analyseurLexical.accept("tok_opening_bracket")){
+				Node pointer = new Node("node_pointer", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+					Node E = Expression(0);
+
+					if(!analyseurLexical.accept("tok_closing_bracket") && analyseurLexical.next().getType() != "tok_closing_parenthesis"  && analyseurLexical.next().getType() != "tok_end_of_file"){
+						System.out.println("Il manque un crochet fermant ']'\n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
+						this.error = true;
+					}
+
+					Node plus = new Node("node_plus_binary", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
+
+					plus.addNodeChild(n);
+					plus.addNodeChild(E);
+
+					pointer.addNodeChild(plus);
+
+					return pointer;
+
+			}
+			
 			return n;
 		}
 		//Renvoi un arbre contenant l'ensemble des calculs mathematiques, expression boolean
-		if(analyseurLexical.next().getType()=="tok_openning_parenthesis") {
+		if(analyseurLexical.next().getType()=="tok_opening_parenthesis") {
 			//Passage au token suivant
 			analyseurLexical.skip();
 
@@ -126,7 +147,7 @@ public class AnalyseurSyntaxique {
         if(analyseurLexical.next().getType() == "tok_multiply"){
             analyseurLexical.skip();
 
-            Node Nexp = Expression(0);
+            Node Nexp = Expression(6);
 
             Node N = new Node("node_pointer", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
             N.addNodeChild(Nexp);
@@ -191,7 +212,7 @@ public class AnalyseurSyntaxique {
 	    if (analyseurLexical.next().getType() == "tok_if"){
 			analyseurLexical.skip();
 
-			if (!analyseurLexical.accept("tok_openning_parenthesis")){
+			if (!analyseurLexical.accept("tok_opening_parenthesis")){
                 System.out.println("Erreur parenthèse ouvrante manquante ...  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 				this.error = true;
 			}
@@ -265,7 +286,7 @@ public class AnalyseurSyntaxique {
 
 			N = new Node("node_block", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
-			if(! analyseurLexical.accept("tok_openning_parenthesis"))
+			if(! analyseurLexical.accept("tok_opening_parenthesis"))
 				System.out.println("Il manque une parenthèse ouvrante '('  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
 
 			Node I = Expression(0);
@@ -315,7 +336,7 @@ public class AnalyseurSyntaxique {
 
 			N = new Node("node_loop", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
-			if(! analyseurLexical.accept("tok_openning_parenthesis")){
+			if(! analyseurLexical.accept("tok_opening_parenthesis")){
                 System.out.println("Il manque une parenthèse ouvrante '('  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;
             }
@@ -348,7 +369,7 @@ public class AnalyseurSyntaxique {
                 this.error = true;
             }
 
-            if(! analyseurLexical.accept("tok_openning_parenthesis")){
+            if(! analyseurLexical.accept("tok_opening_parenthesis")){
                 System.out.println("Il manque une parenthèse ouvrante '('  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 this.error = true;
             }
@@ -460,7 +481,7 @@ public class AnalyseurSyntaxique {
             Node block = new Node("node_block", analyseurLexical.next().getLine(), analyseurLexical.next().getColumn());
 
             //Vérifie qu'on ouvre bien la parenthèse après l'appel de fonction
-            if(!analyseurLexical.accept("tok_openning_parenthesis")){
+            if(!analyseurLexical.accept("tok_opening_parenthesis")){
                 System.out.println("Il manque une parenthèse ouvrante '('\nVotre fihcier doit être composé de fonctions.  \n ( Ligne "+ analyseurLexical.next().getLine() + ", Colonne " + analyseurLexical.next().getColumn() + " : token " + analyseurLexical.next().getType() + " )\n");
                 System.out.println("RAPPEL : Le code principal de l'application doit se trouver dans la fonction Main");
                 //System.out.println("Aucune instruction n'est acceptée en dehors des fonctions");

@@ -34,7 +34,7 @@ Paramètres :
 
 OU pour générer directement le fichier du code compilé pour msm
 
-1- cd ../Execution & java Main -f Nom_fichier_de_code_à_lire -l standart.lib > Exec
+1- cd ../Execution & java Main -f Nom_fichier_de_code_à_lire -l standard.lib > Exec
 ======================================================
 
 --- Librairie : Operator.lib ---
@@ -59,6 +59,7 @@ Analyseur sémantique : permet de gérer et vérifier la déclaration des variab
 Générateur de code : Gènère le code adapté à msm
 Librairies standards acceptées/ import lors de la compilation
 Fonctions prises en charge
+Pointeurs pris en charge
 ======================================================
 
 ---INFOS IMPORTANTES---
@@ -74,6 +75,6 @@ Fonctions prises en charge
 ---NON FAIT---
 
 ======================================================
-variables string
+prise en charge des chaînes de caractères
 Nombre de type flottant (implique qu'un exposant négatif pour un calcul de puissance donnera 0)
 tableaux
