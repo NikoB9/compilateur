@@ -1,0 +1,75 @@
+/*
+* entrée : a, b deux entiers
+* sortie : a^b
+*/
+function Power(a,b){
+	var res = 1;
+	var i = 0;
+	var value = b;
+
+	if(b<0) value = -b;
+	for(i=0; i<value; i=i+1){
+	    if(b>=0){ res = res*a;}
+	    else{ res = res/a;}
+	}
+	return res;
+}
+
+/*
+* entrée : a un entier positif
+* sortie : !a
+*/
+function factorial(a){
+    var i = 1;
+    var res = 1;
+    if(a<0) {
+    return 0;
+    }
+    for(i=2; i<=a; i=i+1){ res = res * i; }
+    return res ;
+}
+
+/*
+* Permet de décomposer un message à envoyer au terminal
+* il faut ajouter 48 au chiffre décomposé pour obtenir son code ascii
+*/
+function printx(a)
+{
+    if(a != 0)
+    {
+        if(a<0){
+            a=a*-1;
+            //code ascii 45 : "-"
+            send 45;
+        }
+        printx(a/10);
+        //+48 car le code ascii de 0 est 48
+        send (a%10)+48;
+    }
+}
+
+/*
+* Permet de réaliser des affichages dans le programme
+* On se sert de la fonction printx pour décomposer le message
+* le but étant d'envoyer les caractères un a un.
+*/
+function print(a)
+{
+    //Si a vaut zero cela correspond au code ascii 48
+    if(a==0) send 48;
+    //Sinon on appelle printx pour décomposer le nombre
+    else printx(a);
+    //on saute une ligne après écriture
+    send 10;
+}
+
+/*
+* Alloue de la mémoire pour les tableaux
+*/
+function alloc(n){
+    //récupération de la première case mémoire dispo
+    var tab = *0;
+    //Définition de la mémoire allouée
+    *0 = tab + n;
+    return tab;
+}

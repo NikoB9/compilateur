@@ -25,6 +25,8 @@ public class AnalyseurLexical {
 		character.put(">=","tok_sup_equal");
 		character.put("<=","tok_inf_equal");
 		character.put("!=","tok_different");
+		character.put("++","tok_increment");
+		character.put("--","tok_decrement");
 		character.put("+","tok_plus");
 		character.put("-","tok_minus");
 		character.put("/","tok_divide");
@@ -33,24 +35,35 @@ public class AnalyseurLexical {
 		character.put("^","tok_power");
 		character.put("<","tok_inf");
 		character.put(">","tok_sup");
-		character.put("(","tok_openning_parenthesis");
+		character.put("(","tok_opening_parenthesis");
 		character.put(")","tok_closing_parenthesis");
 		character.put("{","tok_open_brace");
 		character.put("}","tok_close_brace");
+        character.put("[","tok_opening_bracket");
+        character.put("]","tok_closing_bracket");
 		character.put("&","tok_and");
 		character.put("|","tok_or");
 		character.put("=","tok_assignment");
 		character.put("!","tok_not");
+        character.put(",","tok_comma");
 
 		//Remplissage du tableau de mots cl�s
 		keywords.put("for", "tok_for");
 		keywords.put("if", "tok_if");
+		keywords.put("else", "tok_else");
 		keywords.put("while", "tok_while");
-		keywords.put("print", "tok_print");
+		keywords.put("debug", "tok_debug");
+        keywords.put("var", "tok_declaration");
+        keywords.put("function", "tok_function_declaration");
+        keywords.put("do", "tok_do");
+		keywords.put("return", "tok_return");
+		keywords.put("continue", "tok_continue");
+		keywords.put("break", "tok_break");
+        keywords.put("send", "tok_send");
 	}
 
 	public void skip() {
-		this.listIndex++;
+		if (this.next().getType() != "tok_end_of_file")this.listIndex++;
 	}
 
 	public Token next() {
@@ -86,26 +99,29 @@ public class AnalyseurLexical {
 				char actualChar = line.charAt(columnIndex);
 				int asciiChar = (int) actualChar;
 
+
+
 				//Si on est face � un commentaire de ligne
 				//ASCII "/" : 47
-				if(asciiChar == 47 && line.codePointAt(columnIndex+1) == 47) {
+				if(columnIndex+1 < line.length() && asciiChar == 47 && line.codePointAt(columnIndex+1) == 47) {
 					//On passe � la ligne suivante
 					columnIndex = line.length() - 1;
 				}
 				//on est face � un commentaire de bloque
 				//ASCII "/*" : 47 et 42
-				else if((asciiChar == 47 && line.codePointAt(columnIndex+1) == 42) || blockComment) {
+				else if((columnIndex+1 < line.length() && (asciiChar == 47 && line.codePointAt(columnIndex+1) == 42)) || blockComment) {
+
+					int endIndex = blockComment ? columnIndex : columnIndex+2;
 
 					blockComment = true;
 
-					int endIndex = columnIndex+1;
 					//Tant qu'il n'y a pas de fin de commentaire de block on avance dans le fichier sans rien faire
 					//ASCII "*/" : 42 et 47
 					while(endIndex+1 < line.length() && line.codePointAt(endIndex) != 42 && line.codePointAt(endIndex+1) != 47){
 						endIndex++;
 					}
 
-					if(line.codePointAt(endIndex) == 42 && line.codePointAt(endIndex+1) == 47) {
+					if(endIndex+1 < line.length() && line.codePointAt(endIndex) == 42 && line.codePointAt(endIndex+1) == 47) {
 						blockComment = false;
 					}
 
@@ -147,11 +163,15 @@ public class AnalyseurLexical {
 					//Si c'est un mot cl� pour une instruction on cr� un token qui est li� � ce mot cl�
 					if(this.keywords.containsKey(name)) {
 						this.tokenList.add(new Token(this.keywords.get(name), name, lineIndex, columnIndex));
+						endIndex = endIndex-1;
 					}
 					//Sinon c'est une variable donc on cr� un token identificateur
+					else{
+						//On créé un token a avec la variable
+						this.tokenList.add(new Token("tok_identifier", name, lineIndex, columnIndex));
+						endIndex = endIndex-1;
+					}
 
-					//On cr� un token a avec le nombre r�cup�r�
-					this.tokenList.add(new Token("tok_identifier", name, lineIndex, columnIndex));
 
 					//On se replace au bon endroit dans le fichier
 					columnIndex = endIndex;
@@ -160,28 +180,42 @@ public class AnalyseurLexical {
 
 
 					//Si �a commence par "="
-					if(asciiChar == 61 && line.codePointAt(columnIndex+1) == 61) {
+					if(columnIndex+1 < line.length() && asciiChar == 61 && line.codePointAt(columnIndex+1) == 61) {
+						//On r�cup�re le texte
+						String name = line.substring(columnIndex, columnIndex+2);
+						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
+						columnIndex++;
+					}
+					//Si �a commence par "+"
+					else if(columnIndex+1 < line.length() && asciiChar == 43 && line.codePointAt(columnIndex+1) == 43) {
+						//On r�cup�re le texte
+						String name = line.substring(columnIndex, columnIndex+2);
+						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
+						columnIndex++;
+					}
+					//Si �a commence par "-"
+					else if(columnIndex+1 < line.length() && asciiChar == 45 && line.codePointAt(columnIndex+1) == 45) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 						columnIndex++;
 					}
 					//Si �a commence par "<"
-					else if(asciiChar == 60 && line.codePointAt(columnIndex+1) == 61) {
+					else if(columnIndex+1 < line.length() && asciiChar == 60 && line.codePointAt(columnIndex+1) == 61) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 						columnIndex++;
 					}
 					//Si �a commence par ">"
-					else if(asciiChar == 62 && line.codePointAt(columnIndex+1) == 61) {
+					else if(columnIndex+1 < line.length() && asciiChar == 62 && line.codePointAt(columnIndex+1) == 61) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
 						columnIndex++;
 					}
 					//Si �a commence par "!"
-					else if(asciiChar == 33 && line.codePointAt(columnIndex+1) == 61) {
+					else if(columnIndex+1 < line.length() && asciiChar == 33 && line.codePointAt(columnIndex+1) == 61) {
 						//On r�cup�re le texte
 						String name = line.substring(columnIndex, columnIndex+2);
 						this.tokenList.add(new Token(this.character.get(name), name, lineIndex, columnIndex));
@@ -195,8 +229,10 @@ public class AnalyseurLexical {
 						if (asciiChar == 59) {
 							this.tokenList.add(new Token("tok_separator", lineIndex, columnIndex));
 						}
-						else if (asciiChar != 32) {
+						else if (asciiChar != 32 && asciiChar != 9) {
+						    //9 => horizontal tab
 							this.tokenList.add(new Token("tok_unknown", lineIndex, columnIndex));
+							System.out.println("tok_unknown : "+asciiChar);
 						}
 					}
 				}
