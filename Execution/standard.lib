@@ -57,7 +57,7 @@ function print(a)
 {
     //Si a vaut zero cela correspond au code ascii 48
     if(a==0) send 48;
-    //Sinon on appel printx pour décomposer le nombre
+    //Sinon on appelle printx pour décomposer le nombre
     else printx(a);
     //on saute une ligne après écriture
     send 10;

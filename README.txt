@@ -57,7 +57,7 @@ print(a);
 alloc(n);
 ->Prend en paramètres un nombre n
 ->la fonction alloue n bits d'espace pour un tableau
-->elle est aussi utilisé dans la fonction init qui appel le Main afin d'allouer de la mémoire au programme
+->elle est aussi utilisée dans la fonction init qui appelle le Main afin d'allouer de la mémoire au programme
 ------------------------------------------------------
 factorial(a);
 ->Prend en paramètres un nombre a positif

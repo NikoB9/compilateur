@@ -11,8 +11,6 @@ function main(){
     print(variab);
 
     print(varia);
-
-
     print(vari);
 
     var a=10;
