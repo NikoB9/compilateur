@@ -81,7 +81,6 @@ function main(){
     *testPointer = vari;
     print(vari);
     print(*testPointer);
-<<<<<<< Updated upstream
     print(testPointer);
 
     var b = 4;
@@ -104,11 +103,7 @@ function main(){
     print(testIncr++);
     print(testDecr--);
 
-
-=======
-    print(testPointer);*/
-    var b = 3;
-    var a = 4;
+    print(testPointer);
     print( (*b) );
     print( (*a) );
     (*b) = 9;
@@ -117,7 +112,6 @@ function main(){
     print( (*a) );
     (*a) = (*b);
     print( (*a) );
->>>>>>> Stashed changes
 }
 
 function init(){
